@@ -34,21 +34,14 @@ import { readDataAll } from "../server/database";
 import { useRef } from "react";
 import { Fragment } from "react";
 
-const Deadline = ({deadline}) => {
+const Deadline = ({deadline, matkul}) => {
   const timeDay = useRef();
   const timeHour = useRef();
   const timeMinute = useRef();
   const timeSecond = useRef();
 
   const sendNotifikasi = (title, body) => {
-    Notification.requestPermission().then(permission => {
-      if (permission === 'granted') {
-        console.log("Notifikasi diizinkan.");       
-        new Notification(title, { body, icon: '/path/to/icon.png' });
-      } else {
-        console.log("Notifikasi ditolak.");
-      }
-    });
+    new Notification(title, { body, icon: '/path/to/icon.png' });
   }
   
   useEffect(() => {
@@ -56,14 +49,16 @@ const Deadline = ({deadline}) => {
       const parseWaktu = (waktu) => {
         return waktu > 9 ? waktu : `0${waktu}`;
       };
-
+      
       const target = new Date(deadline).getTime();
       const date = new Date().getTime();
       const difference = target - date;
       
       if(difference < 0) {
         clearInterval(interval);
-        sendNotifikasi("Deadline Tugas", "Deadline tugas telah berakhir");
+        if( difference == -1) sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas telah berakhir");
+      } else if(difference == 7200) {
+        sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas akan segera berakhir");
       }
       
       const days = parseWaktu(Math.floor(difference / (1000 * 60 * 60 * 24)));
@@ -134,6 +129,12 @@ const Tugas = () => {
   };
 
   useEffect(() => {
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = Authentication((user) => {
       if(user && !user?.emailVerified) {
           navigate("/verify");
@@ -154,17 +155,17 @@ const Tugas = () => {
   return (
     <Grid2 container justifyContent={{ xs: "center", sm: "start" }} spacing={2}>
       {data.map((item) => (
-        <Grid2 key={item.uid} size={{ xs: 10, sm: 4, md: 3 }}>
+        <Grid2 key={item.uid} size={{ xs: 11, sm: 4, md: 3 }}>
           <Card sx={{ boxShadow: 3 }}>
             <CardHeader title={item.matkul} subheader={(item.kelas.toLowerCase() == "semua") ? "Semua Kelas" : `Kelas ${item.kelas}`} />
             <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Deadline deadline={item.deadline} />
+                <Deadline deadline={item.deadline} matkul={item.matkul} />
             </CardContent>
             <CardActions
               sx={{ textAlign: "right", justifyContent: "space-between", alignItems: "center" , px: 2 }}
             >
               <Typography variant="body2" component="p" fontFamily="Tillana, cursive">
-                {item.createAt}
+                {`${item.createAt} -> ${item.deadline}`}
               </Typography>
               <IconButton
                 onClick={() => handleToggleExpand(item.uid)}
@@ -187,7 +188,7 @@ const Tugas = () => {
           </Card>
         </Grid2>
       ))}
-      <Grid2 size={{ xs: 10, sm: 4, md: 3 }}>
+      <Grid2 size={{ xs: 11, sm: 4, md: 3 }}>
         <Card sx={{ boxShadow: 3, display: "flex", p: 2 }}>
           <IconButton
             component={NavLink}
