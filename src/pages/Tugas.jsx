@@ -39,6 +39,8 @@ const Deadline = ({deadline, matkul}) => {
   const timeHour = useRef();
   const timeMinute = useRef();
   const timeSecond = useRef();
+  let hasNotifiedDayBefore = false;
+  let hasNotifiedTwoHoursBefore = false;
 
   const sendNotifikasi = (title, body) => {
     new Notification(title, { body, icon: '/path/to/icon.png' });
@@ -57,8 +59,12 @@ const Deadline = ({deadline, matkul}) => {
       if(difference < 0) {
         clearInterval(interval);
         if( difference == -1) sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas telah berakhir");
-      } else if(difference == 7200) {
+      } else if(!hasNotifiedDayBefore && difference <= 86400 && difference > 86000) {
         sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas akan segera berakhir");
+        hasNotifiedDayBefore = true;
+      } else if(!hasNotifiedTwoHoursBefore && difference <= 7200 && difference > 7100) {
+        sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas akan berakhir 1 hari lagi");
+        hasNotifiedTwoHoursBefore = true;
       }
       
       const days = parseWaktu(Math.floor(difference / (1000 * 60 * 60 * 24)));
