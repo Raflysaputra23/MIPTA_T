@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { addData } from "../server/database";
+import { Authentication } from "../server/auth";
+
 
 const TambahTugas = () => {
   const [kelas, setKelas] = useState("");
@@ -23,7 +25,7 @@ const TambahTugas = () => {
   const [deskripsi, setDeskripsi] = useState("");
   const [deadline, setDeadline] = useState("");
   const [disable, setDisable] = useState(true);
-  const navigae = useNavigate();
+  const navigate = useNavigate();
 
   const handleTrashInput = () => {
     setMatkul("");
@@ -43,12 +45,23 @@ const TambahTugas = () => {
       const data = { uid, matkul, deskripsi, deadline, kelas, createAt };
         const response = await addData(data, "tugas");
         MixinAlert("success", response);
-        navigae("/tugas");
+        navigate("/tugas");
     } catch (error) {
         MixinAlert("error", error);
         handleTrashInput();
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = Authentication((user) => {
+      if(user && !user?.emailVerified) {
+          navigate("/verify");
+      } else if(!user) {
+          navigate("/login");
+      }
+    })
+    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+  }, []);
 
   useEffect(() => {
     if(matkul && deskripsi && deadline && kelas) {

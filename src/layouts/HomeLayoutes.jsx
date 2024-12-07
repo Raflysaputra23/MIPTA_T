@@ -23,6 +23,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
 import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import { useRef } from "react";
 
@@ -59,6 +60,7 @@ const HomeLayoutes = () => {
     { title: "dashboard", icon: <DashboardIcon /> },
     { title: "tugas", icon: <LibraryBooksIcon /> },
     { title: "assistant", icon: <AssistantIcon /> },
+    { title: "member", icon: <Diversity3Icon /> },
   ];
   const handleLogout = (e) => {
     e.preventDefault();

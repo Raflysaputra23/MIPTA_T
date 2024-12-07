@@ -59,7 +59,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataUser = { username, kelas, role: "admin", photoURL: "", createAt: new Date() };
+    const dataUser = { username, kelas, role: "user", photoURL: "", createAt: new Date() };
     try {
       const response = await daftarWithManual(email, password, dataUser);
       MixinAlert("success", response);
