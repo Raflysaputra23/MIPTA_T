@@ -40,7 +40,8 @@ const Member = () => {
           <TableRow>
             <TableCell sx={{fontWeight: "bold", fontSize: "1rem"}}>No</TableCell>
             <TableCell sx={{fontWeight: "bold", fontSize: "1rem"}}>Nama Lengkap</TableCell>
-            <TableCell sx={{fontWeight: "bold", fontSize: "1rem"}}>Role</TableCell>
+            <TableCell align="center" sx={{fontWeight: "bold", fontSize: "1rem"}}>Kelas</TableCell>
+            <TableCell align="center" sx={{fontWeight: "bold", fontSize: "1rem"}}>Role</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -53,7 +54,8 @@ const Member = () => {
                 {iterasi++}
               </TableCell>
               <TableCell>{row.username}</TableCell>
-              <TableCell>{row.role}</TableCell>
+              <TableCell align="center">{row.kelas ? row.kelas : "?"}</TableCell>
+              <TableCell align="center">{row.role}</TableCell>
             </TableRow>
           ))}
         </TableBody>
