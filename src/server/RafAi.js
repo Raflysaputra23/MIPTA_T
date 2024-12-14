@@ -8,10 +8,10 @@ const { prompt } = {
 const RafAi = async (message, session) => {
     return new Promise( async (resolve, reject) => {
         try {
-            const { data } = await axios(`/AIchat?message=${message}&sifat=${prompt}&session=${session}&apikey=kizh-api-key`, {
+            const { data } = await axios(`https://kizhbotz.online/AIchat?message=${message}&sifat=${prompt}&session=${session}&apikey=kizh-api-key`, {
                 method: "GET",
             })
-            resolve(data);
+            resolve(data.data.response);
         } catch (error) {
             reject(error);
         }
