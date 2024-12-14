@@ -28,14 +28,17 @@ const Assistant = () => {
     setLoading(true);
     setChat((chat) => [...chat, {message, type: "user"}]);
     setMessage(""); 
-
-    const response = await RafAi(message, session);
-    setChat((chat) => [...chat, {message: response, type: "assistant"}]);
-    setLoading(false);
-    setChat((prevChat) => {
-      localStorage.setItem("message", JSON.stringify(prevChat));
-      return prevChat;
-    });
+    try {
+      const response = await RafAi(message, session);
+      setChat((chat) => [...chat, {message: response, type: "assistant"}]);
+      setLoading(false);
+      setChat((prevChat) => {
+        localStorage.setItem("message", JSON.stringify(prevChat));
+        return prevChat;
+      });
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   const handleResetMessage = () => {
