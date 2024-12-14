@@ -62,6 +62,18 @@ const updateData = async (id, data) => {
     })
 }
 
-export { addData, readDataAll, updateData, readDataSingle };
+const hapusData = async (document, id) => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            const useRef = Doc(document, id);
+            await deleteDoc(useRef);
+            resolve("Data Berhasil Dihapus");
+        } catch (error) {
+            reject("Data gagal dihapus");
+        }
+    })
+}
+
+export { addData, readDataAll, updateData, readDataSingle, hapusData };
 
 

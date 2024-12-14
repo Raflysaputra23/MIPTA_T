@@ -18,6 +18,7 @@ import {
   Grid2,
   IconButton,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   Skeleton,
@@ -27,14 +28,19 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
 import { useEffect } from "react";
 import { Authentication } from "../server/auth";
 import { NavLink, useNavigate } from "react-router";
-import { readDataAll } from "../server/database";
+import { hapusData, readDataAll } from "../server/database";
 import { useRef } from "react";
 import { Fragment } from "react";
 import { DateTime } from "luxon";
+import { Delete } from "@mui/icons-material";
+import { MixinAlert } from "../assets/sweetalert";
 
 const Deadline = ({deadline, matkul}) => {
   const timeDay = useRef();
@@ -125,6 +131,10 @@ const Tugas = () => {
   const navigate = useNavigate();
   const [expandedIds, setExpandedIds] = useState([]);
   const [data, setData] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState("");
+  const [hapus, setHapus] = useState(false);
 
   const handleToggleExpand = (id) => {
     setExpandedIds((prevExpanded) =>
@@ -134,6 +144,29 @@ const Tugas = () => {
     );
   };
 
+  const options = [
+    {item: <DeleteIcon key={"hapus"}/>, type: "hapus"}
+  ];
+
+  const handleAnchor = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+    setMenu(id);
+  }
+
+  const handleMenu = async (type) => {
+    if(type == "hapus") {
+      try {
+        const response = await hapusData("tugas", menu);
+        setOpen(false);
+        setHapus((action) => !action);
+        MixinAlert("success", response);
+      } catch(error) {
+        MixinAlert("error", error);
+      }
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = Authentication((user) => {
       if(user && !user?.emailVerified) {
@@ -142,7 +175,7 @@ const Tugas = () => {
           navigate("/login");
       }
     })
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe; 
   }, []);
 
   useEffect(() => {
@@ -150,14 +183,45 @@ const Tugas = () => {
       const data = await readDataAll("tugas");
       setData(data);
     })()
-  }, []);
+  }, [hapus]);
+
+  const MenuCard = () => {
+    return (
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          'aria-labelledby': 'long-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setOpen((action) => !action)}
+        slotProps={{
+          paper: {
+            style: {
+              maxHeight: 48 * 4.5,
+              width: '4rem',
+            },
+          },
+        }}
+      >
+        {options.map((option) => (
+          <Stack key={option.type} width={"100%"} px={1}>
+            <IconButton sx={{borderRadius: 2, '&:hover': { backgroundColor: option.type == "hapus" ? "#ff0000" : "#00ff00", color: "#fff"}}} onClick={() => handleMenu(option.type)} >
+              {option.item}
+            </IconButton>
+          </Stack>
+        ))}
+      </Menu>
+    )
+  }
 
   return (
     <Grid2 container justifyContent={{ xs: "center", sm: "start" }} spacing={2}>
       {data.map((item) => (
         <Grid2 key={item.uid} size={{ xs: 11, sm: 4, md: 3 }}>
           <Card sx={{ boxShadow: 3 }}>
-            <CardHeader title={item.matkul} subheader={(item.kelas.toLowerCase() == "semua") ? "Semua Kelas" : `Kelas ${item.kelas}`} />
+            <CardHeader title={item.matkul} subheader={(item.kelas.toLowerCase() == "semua") ? "Semua Kelas" : `Kelas ${item.kelas}`} action={<IconButton  onClick={(event) => handleAnchor(event, item.uid)}><MoreVertIcon /></IconButton>} />
+            <MenuCard />
             <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <Deadline deadline={item.dedline} matkul={item.matkul} />
             </CardContent>
