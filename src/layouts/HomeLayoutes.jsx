@@ -9,6 +9,7 @@ import {
   Grid2,
   IconButton,
   Paper,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -46,7 +47,7 @@ const WaktuRealTime = () => {
 
   return (
     <Typography ref={timeRef} variant="h6" fontSize={16} component="div">
-      00:00:00
+      <Skeleton width="3.5rem" height="1.6rem" />
     </Typography>
   )
 
@@ -54,7 +55,7 @@ const WaktuRealTime = () => {
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
-  const [dataUser, setDataUser] = useState({ username: "Anonymous" });
+  const [dataUser, setDataUser] = useState({});
   const navigate = useNavigate();
   const menu = [
     { title: "dashboard", icon: <DashboardIcon /> },
@@ -338,14 +339,14 @@ const HomeLayoutes = () => {
               gap={1}
             >
               <Avatar
-                alt="Rafly Saputra"
+                alt={`${dataUser?.username}`}
                 sx={{ order: 2 }}
                 src={dataUser?.photoURL}
                 component={NavLink}
                 to="/profil"
               />
               <Typography variant="body2" component="span" sx={{ order: 1 }}>
-                {dataUser?.username}
+                {dataUser?.username || <Skeleton width="5rem" height="1.6rem" />}
               </Typography>
             </Stack>
           </Stack>

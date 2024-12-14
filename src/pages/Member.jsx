@@ -1,15 +1,17 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { useEffect } from "react";
 import { Fragment } from "react"
 import { Authentication } from "../server/auth";
 import { useNavigate } from "react-router";
 import { readDataAll } from "../server/database";
 import { useState } from "react";
+import { useId } from "react";
 
 const Member = () => {
     let iterasi = 1;
-    const [ rows, setRows ] = useState([]);
+    const [ rows, setRows ] = useState([{ username: "", kelas: "", role: ""}]);
     const navigate = useNavigate();
+    const keys = useId();
 
     useEffect(() => {
         const unsubscribe = Authentication((user) => {
@@ -27,10 +29,8 @@ const Member = () => {
             const response = await readDataAll();
             setRows(response);
         })()
-
     }, []);
 
-    
   return (
     <Fragment>
         <Typography variant="h4" fontWeight="bold" gutterBottom>Member</Typography>
@@ -47,15 +47,15 @@ const Member = () => {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.uid}
+              key={row.uid || keys}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {iterasi++}
               </TableCell>
-              <TableCell>{row.username}</TableCell>
-              <TableCell align="center">{row.kelas ? row.kelas : "?"}</TableCell>
-              <TableCell align="center">{row.role}</TableCell>
+              <TableCell>{row.username || <Skeleton width="100%" height="2rem" />}</TableCell>
+              <TableCell align="center">{(row.kelas ? row.kelas : "?") || <Skeleton width="100%" height="2rem" />}</TableCell>
+              <TableCell align="center">{row.role || <Skeleton width="100%" height="2rem" />}</TableCell>
             </TableRow>
           ))}
         </TableBody>

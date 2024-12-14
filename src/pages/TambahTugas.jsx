@@ -46,7 +46,7 @@ const TambahTugas = () => {
     const createAt = new Date().toISOString().split("T")[0];
     const formattedDateTime = `${deadlineDate} ${deadlineTime}`;
     try {
-      const data = { uid, matkul, deskripsi, dedline: formattedDateTime, kelas, createAt };
+        const data = { uid, matkul, deskripsi, dedline: formattedDateTime, kelas, createAt };
         const response = await addData(data, "tugas");
         MixinAlert("success", response);
         navigate("/tugas");

@@ -20,6 +20,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -39,7 +40,7 @@ const Deadline = ({deadline, matkul}) => {
   const timeHour = useRef();
   const timeMinute = useRef();
   const timeSecond = useRef();
-  const currentRef = useRef();
+  const currentRef = useRef(null);
   const [waktuHabis, setWaktuHabis] = useState(false);
   
   useEffect(() => {
@@ -67,7 +68,7 @@ const Deadline = ({deadline, matkul}) => {
         timeSecond.current.innerHTML = seconds; 
       }, 1000);
     return () => clearInterval(currentRef.current);
-  })
+  }, []);
 
   if(waktuHabis) {
     return (
@@ -81,7 +82,7 @@ const Deadline = ({deadline, matkul}) => {
     <Stack flexDirection="row" alignContent="center" justifyContent="space-between" sx={{width: "100%"}}>
       <Box  variant="h6" fontSize={16} component="section" display="flex" flexDirection={"column"} alignItems="center">
         <Typography ref={timeDay} variant="h6" fontSize={16} component="section">
-            00
+          <Skeleton width="2rem" height="1.6rem" />
         </Typography>
         <Typography variant="h6" fontSize={16} component="section" fontWeight="bold">
             Hari
@@ -90,7 +91,7 @@ const Deadline = ({deadline, matkul}) => {
       :
       <Box variant="h6" fontSize={16} component="section" display="flex" flexDirection={"column"} alignItems="center">
         <Typography ref={timeHour} variant="h6" fontSize={16} component="section">
-            00
+          <Skeleton width="2rem" height="1.6rem" />
         </Typography>
         <Typography variant="h6" fontSize={16} component="section" fontWeight="bold">
             Jam
@@ -99,7 +100,7 @@ const Deadline = ({deadline, matkul}) => {
       :
       <Box variant="h6" fontSize={16} component="section" display="flex" flexDirection={"column"} alignItems="center">
         <Typography ref={timeMinute} variant="h6" fontSize={16} component="section">
-            00
+          <Skeleton width="2rem" height="1.6rem" />
         </Typography>
         <Typography variant="h6" fontSize={16} component="section" fontWeight="bold">
             Menit
@@ -108,7 +109,7 @@ const Deadline = ({deadline, matkul}) => {
       :
       <Box variant="h6" fontSize={16} component="section" display="flex" flexDirection={"column"} alignItems="center">
         <Typography ref={timeSecond} variant="h6" fontSize={16} component="section">
-            00
+          <Skeleton width="2rem" height="1.6rem" />
         </Typography>
         <Typography variant="h6" fontSize={16} component="section" fontWeight="bold">
             Detik
@@ -132,12 +133,6 @@ const Tugas = () => {
   };
 
   useEffect(() => {
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission();
-    }
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = Authentication((user) => {
       if(user && !user?.emailVerified) {
           navigate("/verify");
@@ -153,7 +148,7 @@ const Tugas = () => {
       const data = await readDataAll("tugas");
       setData(data);
     })()
-  }, [])
+  }, []);
 
   return (
     <Grid2 container justifyContent={{ xs: "center", sm: "start" }} spacing={2}>
@@ -167,9 +162,14 @@ const Tugas = () => {
             <CardActions
               sx={{ textAlign: "right", justifyContent: "space-between", alignItems: "center" , px: 2 }}
             >
+            <Stack direction="column" alignItems="flex-start">
               <Typography variant="body2" component="p" fontFamily="Tillana, cursive">
-                {`${item.createAt} -> ${item.dedline}`}
+                {`From: ${item.createAt}`}
               </Typography>
+              <Typography variant="body2" component="p" fontFamily="Tillana, cursive">
+                {`Dedline: ${item.dedline}`}
+              </Typography>
+            </Stack>
               <IconButton
                 onClick={() => handleToggleExpand(item.uid)}
                 aria-expanded={expandedIds.includes(item.uid)}

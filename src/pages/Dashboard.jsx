@@ -10,6 +10,7 @@ import {
   CardContent,
   CardMedia,
   Grid2,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -103,7 +104,7 @@ const Dashboard = ({ auth }) => {
                       {item.title}
                     </Typography>
                     <Typography variant="body" fontWeight="bold" component="h4">
-                      {item.jumlah}
+                      {item.jumlah || <Skeleton width="2rem" height="1.6rem" />}
                     </Typography>
                   </Stack>
                 </CardContent>
