@@ -27,18 +27,18 @@ const Assistant = () => {
     try {
       setDisabled(true);
       setLoading(true);
-      setChat((chat) => [...chat, {message, type: "user"}]);
+      const currentChat = [...chat, {message, type: "user"}];
+      setChat(currentChat);
       setMessage(""); 
-      
+
       const response = await RafAi(message, session);
-      setChat((chat) => [...chat, {message: response, type: "assistant"}]);
-      setLoading(false);
-      setChat((prevChat) => {
-        localStorage.setItem("message", JSON.stringify(prevChat));
-        return prevChat;
-      });
+      const newChat = [...currentChat, {message: response, type: "assistant"}];
+      setChat(newChat);
+      localStorage.setItem("message", JSON.stringify(newChat));
     } catch(error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
