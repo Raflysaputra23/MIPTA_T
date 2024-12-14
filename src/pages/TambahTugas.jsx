@@ -24,7 +24,7 @@ const TambahTugas = () => {
   const [matkul, setMatkul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [deadlineTime, setDeadlineTime] = useState("");
+  const [deadlineTime, setDeadlineTime] = useState("00:00");
   const [disable, setDisable] = useState(true);
   const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ const TambahTugas = () => {
   }, []);
 
   useEffect(() => {
-    if(matkul && deskripsi && deadlineDate && kelas && deadlineTime) {
+    if(matkul && deskripsi && deadlineDate && kelas) {
       setDisable(false);
     } else {
       setDisable(true);
@@ -141,7 +141,6 @@ const TambahTugas = () => {
               variant="outlined"
               onChange={(e) => setDeadlineTime(e.target.value)}
               fullWidth
-              required
             />
 
           </Stack>

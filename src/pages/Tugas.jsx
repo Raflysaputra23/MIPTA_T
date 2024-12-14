@@ -34,6 +34,7 @@ import { NavLink, useNavigate } from "react-router";
 import { readDataAll } from "../server/database";
 import { useRef } from "react";
 import { Fragment } from "react";
+import { DateTime } from "luxon";
 
 const Deadline = ({deadline, matkul}) => {
   const timeDay = useRef();
@@ -45,9 +46,10 @@ const Deadline = ({deadline, matkul}) => {
   
   useEffect(() => {
       currentRef.current = setInterval(() => {
-        const target = new Date(deadline).getTime();
-        const date = new Date().getTime();
-        const difference = target - date;
+        const dateTime = DateTime.fromFormat(deadline, 'yyyy-MM-dd HH:mm', { zone: 'Asia/Jakarta' });
+        const dedline = dateTime.toMillis();
+        const now = DateTime.now().setZone('Asia/Jakarta').toMillis();
+        const difference = dedline - now;
         const parseWaktu = (waktu) => {
           return waktu > 9 ? waktu : `0${waktu}`;
         };

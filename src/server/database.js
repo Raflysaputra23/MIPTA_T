@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable no-unused-vars */
 import app from "../../firebaseConfig";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore";
 const db = getFirestore(app);
 
 const Collection = (name) => {
