@@ -73,7 +73,7 @@ const Profil = () => {
       setRole(role);
       setPhotoURL(photoURL);
     });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe;
   }, []);
 
   return (

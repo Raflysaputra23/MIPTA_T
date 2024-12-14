@@ -39,46 +39,43 @@ const Deadline = ({deadline, matkul}) => {
   const timeHour = useRef();
   const timeMinute = useRef();
   const timeSecond = useRef();
-  let hasNotifiedDayBefore = false;
-  let hasNotifiedTwoHoursBefore = false;
-
-  const sendNotifikasi = (title, body) => {
-    new Notification(title, { body, icon: '/path/to/icon.png' });
-  }
+  const currentRef = useRef();
+  const [waktuHabis, setWaktuHabis] = useState(false);
   
   useEffect(() => {
-    const interval = setInterval(() => {
-      const parseWaktu = (waktu) => {
-        return waktu > 9 ? waktu : `0${waktu}`;
-      };
-      
-      const target = new Date(deadline).getTime();
-      const date = new Date().getTime();
-      const difference = target - date;
-      
-      if(difference < 0) {
-        clearInterval(interval);
-        if( difference == -1) sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas telah berakhir");
-      } else if(!hasNotifiedDayBefore && difference <= 86400 && difference > 86000) {
-        sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas akan segera berakhir");
-        hasNotifiedDayBefore = true;
-      } else if(!hasNotifiedTwoHoursBefore && difference <= 7200 && difference > 7100) {
-        sendNotifikasi(`Deadline ${matkul}`, "Deadline tugas akan berakhir 1 hari lagi");
-        hasNotifiedTwoHoursBefore = true;
-      }
-      
-      const days = parseWaktu(Math.floor(difference / (1000 * 60 * 60 * 24)));
-      const hours = parseWaktu(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-      const minutes = parseWaktu(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)));
-      const seconds = parseWaktu(Math.floor((difference % (1000 * 60)) / 1000));
-      
-      timeDay.current.innerHTML = days;
-      timeHour.current.innerHTML = hours;
-      timeMinute.current.innerHTML = minutes;
-      timeSecond.current.innerHTML = seconds; 
-    }, 1000);
-    return () => clearInterval(interval);
+      currentRef.current = setInterval(() => {
+        const target = new Date(deadline).getTime();
+        const date = new Date().getTime();
+        const difference = target - date;
+        const parseWaktu = (waktu) => {
+          return waktu > 9 ? waktu : `0${waktu}`;
+        };
+
+        if(difference <= 500) {
+          setWaktuHabis(true);
+          clearInterval(currentRef.current);
+        } 
+        
+        const days = parseWaktu(Math.floor(difference / (1000 * 60 * 60 * 24)));
+        const hours = parseWaktu(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        const minutes = parseWaktu(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)));
+        const seconds = parseWaktu(Math.floor((difference % (1000 * 60)) / 1000));
+        
+        timeDay.current.innerHTML = days;
+        timeHour.current.innerHTML = hours;
+        timeMinute.current.innerHTML = minutes;
+        timeSecond.current.innerHTML = seconds; 
+      }, 1000);
+    return () => clearInterval(currentRef.current);
   })
+
+  if(waktuHabis) {
+    return (
+      <Typography>
+        Waktu Habis
+      </Typography>
+    )
+  }
 
   return (
     <Stack flexDirection="row" alignContent="center" justifyContent="space-between" sx={{width: "100%"}}>
@@ -165,13 +162,13 @@ const Tugas = () => {
           <Card sx={{ boxShadow: 3 }}>
             <CardHeader title={item.matkul} subheader={(item.kelas.toLowerCase() == "semua") ? "Semua Kelas" : `Kelas ${item.kelas}`} />
             <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Deadline deadline={item.deadline} matkul={item.matkul} />
+                <Deadline deadline={item.dedline} matkul={item.matkul} />
             </CardContent>
             <CardActions
               sx={{ textAlign: "right", justifyContent: "space-between", alignItems: "center" , px: 2 }}
             >
               <Typography variant="body2" component="p" fontFamily="Tillana, cursive">
-                {`${item.createAt} -> ${item.deadline}`}
+                {`${item.createAt} -> ${item.dedline}`}
               </Typography>
               <IconButton
                 onClick={() => handleToggleExpand(item.uid)}

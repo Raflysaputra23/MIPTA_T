@@ -23,13 +23,15 @@ const TambahTugas = () => {
   const [kelas, setKelas] = useState("");
   const [matkul, setMatkul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [deadlineDate, setDeadlineDate] = useState("");
+  const [deadlineTime, setDeadlineTime] = useState("");
   const [disable, setDisable] = useState(true);
   const navigate = useNavigate();
 
   const handleTrashInput = () => {
     setMatkul("");
-    setDeadline("");
+    setDeadlineDate("");
+    setDeadlineTime("");
     setDeskripsi("");
     setKelas("");
 } 
@@ -39,10 +41,12 @@ const TambahTugas = () => {
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substring(2, 8);
     };
+
     const uid = generateUniqueId();
     const createAt = new Date().toISOString().split("T")[0];
+    const formattedDateTime = `${deadlineDate} ${deadlineTime}`;
     try {
-      const data = { uid, matkul, deskripsi, deadline, kelas, createAt };
+      const data = { uid, matkul, deskripsi, dedline: formattedDateTime, kelas, createAt };
         const response = await addData(data, "tugas");
         MixinAlert("success", response);
         navigate("/tugas");
@@ -64,12 +68,12 @@ const TambahTugas = () => {
   }, []);
 
   useEffect(() => {
-    if(matkul && deskripsi && deadline && kelas) {
+    if(matkul && deskripsi && deadlineDate && kelas && deadlineTime) {
       setDisable(false);
     } else {
       setDisable(true);
     }
-  }, [matkul, deskripsi, deadline, kelas]);
+  }, [matkul, deskripsi, deadlineDate, deadlineTime, kelas]);
 
   return (
     <Fragment>
@@ -118,16 +122,29 @@ const TambahTugas = () => {
           />
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
-          <TextField
-            type="date"
-            name="deadline"
-            value={deadline}
-            label="Dedline"
-            variant="outlined"
-            onChange={(e) => setDeadline(e.target.value)}
-            fullWidth
-            required
-          />
+          <Stack direction="row" spacing={2}>
+            <TextField
+              type="date"
+              name="deadlineDate"
+              value={deadlineDate}
+              label="Dedline Date"
+              variant="outlined"
+              onChange={(e) => setDeadlineDate(e.target.value)}
+              fullWidth
+              required
+            />
+            <TextField
+              type="time"
+              name="Deadline Time"
+              value={deadlineTime}
+              label="Dedline"
+              variant="outlined"
+              onChange={(e) => setDeadlineTime(e.target.value)}
+              fullWidth
+              required
+            />
+
+          </Stack>
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
           <FormControl fullWidth variant="outlined" required sx={{ mb: 1 }}>
