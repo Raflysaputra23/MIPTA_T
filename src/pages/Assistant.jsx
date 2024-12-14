@@ -24,11 +24,12 @@ const Assistant = () => {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    setDisabled(true);
-    setLoading(true);
-    setChat((chat) => [...chat, {message, type: "user"}]);
-    setMessage(""); 
     try {
+      setDisabled(true);
+      setLoading(true);
+      setChat((chat) => [...chat, {message, type: "user"}]);
+      setMessage(""); 
+      
       const response = await RafAi(message, session);
       setChat((chat) => [...chat, {message: response, type: "assistant"}]);
       setLoading(false);

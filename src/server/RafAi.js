@@ -11,7 +11,7 @@ const RafAi = async (message, session) => {
             const { data } = await axios(`/AIchat?message=${message}&sifat=${prompt}&session=${session}&apikey=kizh-api-key`, {
                 method: "GET",
             })
-            resolve(data?.data?.response);
+            resolve(data.data.response);
         } catch (error) {
             reject(error);
         }
