@@ -32,6 +32,7 @@ const Assistant = () => {
       setMessage(""); 
 
       const response = await RafAi(message, session);
+      console.log(response);
       const newChat = [...currentChat, {message: response, type: "assistant"}];
       setChat(newChat);
       localStorage.setItem("message", JSON.stringify(newChat));
