@@ -1,4 +1,13 @@
 {
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/API/(.*)", 
