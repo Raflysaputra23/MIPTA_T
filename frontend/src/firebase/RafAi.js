@@ -8,7 +8,7 @@ const { prompt } = {
 const RafAi = async (message, session) => {
     return new Promise( async (resolve, reject) => {
         try {
-            const { data } = await axios(`http://localhost:8000/API/RafAi`, {
+            const { data } = await axios(`https://mipta-t.vercel.app/API/RafAi`, {
                 method: "POST",
                 data: {
                     message,
