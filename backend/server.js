@@ -2,7 +2,6 @@ const express = require("express");
 const axios = require("axios");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 8000;
 
 const corsOptions = {
     origin: "https://mipta-t.vercel.app", 
@@ -25,6 +24,7 @@ app.post("/API/RafAi", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Running on ${port}`);
-})
+app.listen(process.env.PORT || 8000, () => {
+    console.log(`Running on port ${process.env.PORT || 8000}`);
+});
+  
