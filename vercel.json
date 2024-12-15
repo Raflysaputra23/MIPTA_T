@@ -1,25 +1,25 @@
 {
   "builds": [
     {
-      "src": "frontend/package.json",  
-      "use": "@vercel/static-build"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist" 
+      }
     },
     {
-      "src": "backend/index.js",  
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "src": "backend/index.js",
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
-      "source": "/API/(.*)", 
+      "source": "/api/(.*)", 
       "destination": "/backend/$1"  
     },
     {
       "source": "/(.*)", 
-      "destination": "/frontend/dist/$1"  
+      "destination": "/frontend/dist/index.html"  
     }
   ]
 }
