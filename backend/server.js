@@ -6,7 +6,9 @@ const port = process.env.PORT || 8000;
 
 const corsOptions = {
     origin: "https://mipta-t.vercel.app", 
-    methods: ["GET", "POST"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedOrigins: ["https://mipta-t.vercel.app"], 
+    allowedHeaders: ["Content-Type"],
     credentials: true
   };
 
