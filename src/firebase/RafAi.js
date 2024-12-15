@@ -9,6 +9,9 @@ const RafAi = async (message, session) => {
     return new Promise( async (resolve, reject) => {
         try {
             const { data } = await axios.post(`https://mipta-t.vercel.app/API/RafAi`, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 data: {
                     message,
                     session,
