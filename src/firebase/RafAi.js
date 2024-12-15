@@ -9,6 +9,7 @@ const RafAi = async (message, session) => {
     return new Promise( async (resolve, reject) => {
         try {
             const { data } = await axios(`https://mipta-t.vercel.app/API/RafAi`, {
+                timeout: 10000,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -21,7 +22,7 @@ const RafAi = async (message, session) => {
             })
             resolve(data.response);
         } catch (error) {
-            reject(error);
+            reject("Maaf Bot MIPA T Sedang Mengalami Gangguan");
         }
     })
 }
