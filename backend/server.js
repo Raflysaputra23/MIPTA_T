@@ -6,6 +6,8 @@ const cors = require("cors");
 const corsOptions = {
     origin: "https://mipta-t.vercel.app", 
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedOrigins: ["https://mipta-t.vercel.app"], 
+    allowedHeaders: ["Content-Type"],
     credentials: true
   };
 
