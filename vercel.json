@@ -1,5 +1,9 @@
 {
     "builds": [
+      {
+        "src": "index.html",
+        "use": "@vercel/static"
+      },
     {
       "src": "backend/server.js",
       "use": "@vercel/node"
