@@ -1,7 +1,14 @@
 {
   "builds": [
     {
-      "src": "frontend/package.json",
+      "src": "frontend/package.json",  
+      "use": "@vercel/static-build",  
+      "config": {
+        "distDir": "frontend/dist"  
+      }
+    },
+    {
+      "src": "backend/index.js",  
       "use": "@vercel/node",
       "config": {
         "maxLambdaSize": "50mb"
@@ -11,11 +18,11 @@
   "rewrites": [
     {
       "source": "/API/(.*)", 
-      "destination": "/backend/$1"
+      "destination": "/backend/$1"  
     },
     {
       "source": "/(.*)", 
-      "destination": "/frontend/index.html"
+      "destination": "/frontend/index.html"  
     }
   ]
 }
