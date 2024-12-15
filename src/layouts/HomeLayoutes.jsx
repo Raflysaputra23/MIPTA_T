@@ -145,6 +145,25 @@ const HomeLayoutes = () => {
               {item.title}
             </Button>
           ))}
+          <Typography
+                variant="body2"
+                component="span"
+                sx={{
+                  fontWeight: "bold",
+                  color: "#fff",
+                  bgcolor: "main",
+                  borderRadius: 2,
+                  mt: 2,
+                  width: "100%",
+                  py: 1,
+                  display: { xs: "flex", sm: "flex", md: "none" },
+                  justifyContent: "center",
+                  alignItems: "center",
+                  order: 3,
+                }}
+              >
+                <WaktuRealTime />
+              </Typography>
         </Box>
       </Stack>
       <Button
@@ -323,7 +342,7 @@ const HomeLayoutes = () => {
                   borderRadius: 2,
                   width: 70,
                   py: 1,
-                  display: "flex",
+                  display: { xs: "none", sm: "none", md: "flex" },
                   justifyContent: "center",
                   alignItems: "center",
                   order: 3,
