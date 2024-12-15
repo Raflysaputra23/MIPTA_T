@@ -36,9 +36,8 @@ const Assistant = () => {
       setChat(botChat);
       localStorage.setItem("message", JSON.stringify(botChat));
     } catch(error) {
-      const botChat = [...userChat, {message: error, type: "assistant"}];
-      setChat(botChat);
-      localStorage.setItem("message", JSON.stringify(botChat));
+      setChat((userChat) => [...userChat, {message: error, type: "assistant"}]);
+      localStorage.setItem("message", JSON.stringify(chat));
     } finally {
       setLoading(false);
     }
