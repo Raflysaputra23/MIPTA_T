@@ -16,9 +16,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.post("/API/RafAi", async (req, res) => {
-    const { message, session, prompt } = req.body;
-    const { data } = await axios(`https://kizhbotz.online/AIchat?message=${message}&sifat=${prompt}&session=${session}&apikey=kizh-api-key`);
-    res.json({ creator: "Rafly", response: data.data.response });
+    try {
+        const { message, session, prompt } = req.body;
+        const { data } = await axios(`https://kizhbotz.online/AIchat?message=${message}&sifat=${prompt}&session=${session}&apikey=kizh-api-key`);
+        res.json({ creator: "Rafly", response: data.data.response });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.listen(port, () => {
