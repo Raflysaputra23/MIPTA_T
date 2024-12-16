@@ -24,6 +24,28 @@ app.post("/API/RafAi", async (req, res) => {
     }
 });
 
+app.post("/API/Scients", async (req, res) => {
+    try {
+        const { message, session } = req.body;
+        const { data } = await axios("https://www.blackbox.ai/api/check", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",   
+            },
+            data: {
+                messages : [{
+                    role: "user",
+                    content: message,
+                    id: session
+                }]
+            }
+        })
+        res.status(200).json({ creator: "Rafly", response: data.results.organic });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
 app.listen(process.env.PORT || 8000, () => {
     console.log(`Running on port ${process.env.PORT || 8000}`);
 });

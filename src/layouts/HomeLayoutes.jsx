@@ -26,6 +26,7 @@ import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import AssistantIcon from '@mui/icons-material/Assistant';
+import ScienceIcon from '@mui/icons-material/Science';
 import { useRef } from "react";
 
 const WaktuRealTime = () => {
@@ -62,6 +63,7 @@ const HomeLayoutes = () => {
     { title: "tugas", icon: <LibraryBooksIcon /> },
     { title: "assistant", icon: <AssistantIcon /> },
     { title: "member", icon: <Diversity3Icon /> },
+    { title: "scient", icon: <ScienceIcon /> },
   ];
   const handleLogout = (e) => {
     e.preventDefault();

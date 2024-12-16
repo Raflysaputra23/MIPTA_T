@@ -1,15 +1,12 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-async-promise-executor */
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 
-const { prompt } = {
-    prompt: import.meta.env.VITE_RAF_AI_PROMPT
-}
 
-const RafAi = async (message, session) => {
+const Scients = async (message, session) => {
     return new Promise( async (resolve, reject) => {
         try {
-            const { data } = await axios(`https://mipta-t.vercel.app/API/RafAi`, {
+            const { data } = await axios(`https://mipta-t.vercel.app/API/Scients`, {
                 timeout: 10000,
                 method: "POST",
                 headers: {
@@ -17,8 +14,7 @@ const RafAi = async (message, session) => {
                 },
                 data: {
                     message,
-                    session,
-                    prompt
+                    session
                 }
             })
             resolve(data.response);
@@ -28,4 +24,4 @@ const RafAi = async (message, session) => {
     })
 }
 
-export default RafAi;
+export default Scients;

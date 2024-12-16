@@ -23,6 +23,7 @@ import ResetLayoutes from "./layouts/ResetLayoutes";
 import TugasLayoutes from "./layouts/TugasLayoutes";
 import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
+import Scient from "./pages/Scient";
 
 const theme = createTheme({
   typography: {
@@ -48,6 +49,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="assistant" element={<Assistant />} />
           <Route path="profil" element={<Profil />} />
           <Route path="member" element={<Member />} />
+          <Route path="scient" element={<Scient />} />
         </Route>
         <Route path="/" element={<AuthLayoutes />}>
           <Route path="login" element={<Login />} />
