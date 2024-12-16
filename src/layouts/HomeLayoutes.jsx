@@ -8,7 +8,6 @@ import {
   Drawer,
   Grid2,
   IconButton,
-  Paper,
   Skeleton,
   Stack,
   Typography,
@@ -24,10 +23,11 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
 import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-import AssistantIcon from '@mui/icons-material/Assistant';
-import ScienceIcon from '@mui/icons-material/Science';
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import AssistantIcon from "@mui/icons-material/Assistant";
+import ScienceIcon from "@mui/icons-material/Science";
 import { useRef } from "react";
+import { Helmet } from "react-helmet";
 
 const WaktuRealTime = () => {
   const timeRef = useRef();
@@ -41,7 +41,7 @@ const WaktuRealTime = () => {
       const hours = parseWaktu(date.getHours());
       const minutes = parseWaktu(date.getMinutes());
       const seconds = parseWaktu(date.getSeconds());
-      timeRef.current.innerHTML = (`${hours}:${minutes}:${seconds}`);
+      timeRef.current.innerHTML = `${hours}:${minutes}:${seconds}`;
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -50,9 +50,8 @@ const WaktuRealTime = () => {
     <Typography ref={timeRef} variant="h6" fontSize={16} component="div">
       <Skeleton width="3.5rem" height="1.6rem" />
     </Typography>
-  )
-
-}
+  );
+};
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
@@ -81,7 +80,7 @@ const HomeLayoutes = () => {
       const find = response.find((item) => item.uid === user?.uid);
       setDataUser(find);
     });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe;
   }, []);
 
   const Aside = (
@@ -148,24 +147,24 @@ const HomeLayoutes = () => {
             </Button>
           ))}
           <Typography
-                variant="body2"
-                component="span"
-                sx={{
-                  fontWeight: "bold",
-                  color: "#fff",
-                  bgcolor: "main",
-                  borderRadius: 2,
-                  mt: 2,
-                  width: "100%",
-                  py: 1,
-                  display: { xs: "flex", sm: "flex", md: "none" },
-                  justifyContent: "center",
-                  alignItems: "center",
-                  order: 3,
-                }}
-              >
-                <WaktuRealTime />
-              </Typography>
+            variant="body2"
+            component="span"
+            sx={{
+              fontWeight: "bold",
+              color: "#fff",
+              bgcolor: "main",
+              borderRadius: 2,
+              mt: 2,
+              width: "100%",
+              py: 1,
+              display: { xs: "flex", sm: "flex", md: "none" },
+              justifyContent: "center",
+              alignItems: "center",
+              order: 3,
+            }}
+          >
+            <WaktuRealTime />
+          </Typography>
         </Box>
       </Stack>
       <Button
@@ -189,6 +188,10 @@ const HomeLayoutes = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <meta name="author" content="M. Rafly Saputra" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <Grid2
         container
         spacing={2}
@@ -367,7 +370,9 @@ const HomeLayoutes = () => {
                 to="/profil"
               />
               <Typography variant="body2" component="span" sx={{ order: 1 }}>
-                {dataUser?.username || <Skeleton width="5rem" height="1.6rem" />}
+                {dataUser?.username || (
+                  <Skeleton width="5rem" height="1.6rem" />
+                )}
               </Typography>
             </Stack>
           </Stack>

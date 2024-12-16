@@ -3,10 +3,7 @@
 import {
   Alert,
   AlertTitle,
-  Box,
   Card,
-  CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Grid2,
@@ -22,6 +19,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import { Fragment } from "react";
 import { Authentication } from "../firebase/auth";
 import { readDataAll } from "../firebase/database";
+import { Helmet } from "react-helmet";
 
 const Dashboard = ({ auth }) => {
   const navigate = useNavigate();
@@ -63,11 +61,18 @@ const Dashboard = ({ auth }) => {
       setDataUserB(kelasB);
       setDataUser(response);
     });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe;
   }, []);
 
   return (
     <Fragment>
+      <Helmet>
+        <meta
+          name="description"
+          content="Halaman dashboard MIPA T menampilkan jumlah anggota yang login"
+        />
+        <meta name="keywords" content="Dashboard MIPA T, Aplikasi MIPA T" />
+      </Helmet>
       <Stack direction="row" mb={3}>
         <Alert
           variant="filled"

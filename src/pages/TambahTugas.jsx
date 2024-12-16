@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { addData } from "../firebase/database";
 import { Authentication } from "../firebase/auth";
-
+import { Helmet } from "react-helmet";
 
 const TambahTugas = () => {
   const [kelas, setKelas] = useState("");
@@ -34,41 +34,50 @@ const TambahTugas = () => {
     setDeadlineTime("");
     setDeskripsi("");
     setKelas("");
-} 
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const generateUniqueId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substring(2, 8);
+      return (
+        Date.now().toString(36) + Math.random().toString(36).substring(2, 8)
+      );
     };
 
     const uid = generateUniqueId();
     const createAt = new Date().toISOString().split("T")[0];
     const formattedDateTime = `${deadlineDate} ${deadlineTime}`;
     try {
-        const data = { uid, matkul, deskripsi, dedline: formattedDateTime, kelas, createAt };
-        const response = await addData(data, "tugas");
-        MixinAlert("success", response);
-        navigate("/tugas");
+      const data = {
+        uid,
+        matkul,
+        deskripsi,
+        dedline: formattedDateTime,
+        kelas,
+        createAt,
+      };
+      const response = await addData(data, "tugas");
+      MixinAlert("success", response);
+      navigate("/tugas");
     } catch (error) {
-        MixinAlert("error", error);
-        handleTrashInput();
+      MixinAlert("error", error);
+      handleTrashInput();
     }
   };
 
   useEffect(() => {
     const unsubscribe = Authentication((user) => {
-      if(user && !user?.emailVerified) {
-          navigate("/verify");
-      } else if(!user) {
-          navigate("/login");
+      if (user && !user?.emailVerified) {
+        navigate("/verify");
+      } else if (!user) {
+        navigate("/login");
       }
-    })
+    });
     return () => unsubscribe; // Bersihkan listener saat komponen unmounted
   }, []);
 
   useEffect(() => {
-    if(matkul && deskripsi && deadlineDate && kelas) {
+    if (matkul && deskripsi && deadlineDate && kelas) {
       setDisable(false);
     } else {
       setDisable(true);
@@ -77,6 +86,13 @@ const TambahTugas = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <meta
+          name="description"
+          content="Halaman tambah tugas untuk menambahkan tugas dan memanage waktu dedline"
+        />
+        <meta name="keywords" content="Aplikasi MIPA T" />
+      </Helmet>
       <Stack direction="row" alignItems="center" my={2}>
         <Button
           component={NavLink}
@@ -142,7 +158,6 @@ const TambahTugas = () => {
               onChange={(e) => setDeadlineTime(e.target.value)}
               fullWidth
             />
-
           </Stack>
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
@@ -163,7 +178,12 @@ const TambahTugas = () => {
           </FormControl>
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
-          <Button variant="contained" type="submit" sx={{ bgcolor: "main" }} disabled={disable}>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ bgcolor: "main" }}
+            disabled={disable}
+          >
             Simpan
           </Button>
         </Grid2>

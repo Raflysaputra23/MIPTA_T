@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import { Container } from "@mui/material";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { Authentication } from "../firebase/auth";
+import { Helmet } from "react-helmet";
+import { Fragment } from "react";
 
-const AuthLayoutes = ({ auth }) => {
+const AuthLayoutes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,27 +16,33 @@ const AuthLayoutes = ({ auth }) => {
         navigate("/verify");
       }
     });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe; 
   }, []);
 
   return (
-    <Container
-      component="main"
-      maxWidth="xl"
-      sx={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        overflowX: "hidden",
-        overflowY: "auto",
-        bgcolor: "rgb(240, 245, 249)",
-        pt: 6,
-        pb: 4,
-      }}
-    >
-      <Outlet />
-    </Container>
+    <Fragment>
+      <Helmet>
+        <meta name="author" content="M. Rafly Saputra" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+      <Container
+        component="main"
+        maxWidth="xl"
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflowX: "hidden",
+          overflowY: "auto",
+          bgcolor: "rgb(240, 245, 249)",
+          pt: 6,
+          pb: 4,
+        }}
+      >
+        <Outlet />
+      </Container>
+    </Fragment>
   );
 };
 

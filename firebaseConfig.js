@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -11,6 +10,5 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENTID,
 };
 
-// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 export default app;
