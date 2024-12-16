@@ -6,7 +6,7 @@ const app = express();
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "https://mipta-t.vercel.app",
+  origin: "https://www.mipat.my.id",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };

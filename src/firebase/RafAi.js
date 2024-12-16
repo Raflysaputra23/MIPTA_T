@@ -9,7 +9,7 @@ const { prompt } = {
 const RafAi = async (message, session) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data } = await axios(`https://mipta-t.vercel.app/API/RafAi`, {
+      const { data } = await axios(`https://www.mipat.my.id/API/RafAi`, {
         timeout: 10000,
         method: "POST",
         headers: {
