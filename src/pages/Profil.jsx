@@ -19,7 +19,7 @@ import { useState } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/userContext";
+import { useUser } from "../context/UserProvider";
 
 const Profil = () => {
   const { user } = useUser();

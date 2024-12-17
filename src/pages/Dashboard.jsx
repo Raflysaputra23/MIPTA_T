@@ -15,7 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/userContext";
+import { useUser } from "../context/UserProvider";
 
 const Dashboard = () => {
   const { users } = useUser();

@@ -24,7 +24,7 @@ import TugasLayoutes from "./layouts/TugasLayoutes";
 import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
-import { UserProvider } from "./context/UserContext";
+import { UserProvider } from "./context/UserProvider";
 
 const theme = createTheme({
   typography: {

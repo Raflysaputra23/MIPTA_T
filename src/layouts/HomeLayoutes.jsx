@@ -28,7 +28,7 @@ import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/userContext";
+import { useUser } from "../context/UserProvider";
 
 const WaktuRealTime = () => {
   const timeRef = useRef();
@@ -70,7 +70,7 @@ const HomeLayoutes = () => {
     e.preventDefault();
     logout();
   };
-  
+
   useEffect(() => {
     const auth = Authentication(async (user) => {
       if (user && !user?.emailVerified) {
