@@ -23,7 +23,7 @@ const TambahTugas = () => {
   const [kelas, setKelas] = useState("");
   const [matkul, setMatkul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
-  const [deadlineDate, setDeadlineDate] = useState("0000-00-00");
+  const [deadlineDate, setDeadlineDate] = useState("dd/mm/yyyy");
   const [deadlineTime, setDeadlineTime] = useState("23:59");
   const [disable, setDisable] = useState(true);
   const navigate = useNavigate();
