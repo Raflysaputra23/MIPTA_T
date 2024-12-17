@@ -24,6 +24,7 @@ import TugasLayoutes from "./layouts/TugasLayoutes";
 import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
+import { UserProvider } from "./context/UserContext";
 
 const theme = createTheme({
   typography: {
@@ -38,19 +39,20 @@ createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <UserProvider>
       <Routes>
-        <Route path="/" element={<HomeLayoutes />}>
-          <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="tugas" element={<TugasLayoutes />} >
-            <Route index element={<Tugas />} />
-            <Route path="tambah-tugas" element={<TambahTugas />} />
+          <Route path="/" element={<HomeLayoutes />}>
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="tugas" element={<TugasLayoutes />} >
+              <Route index element={<Tugas />} />
+              <Route path="tambah-tugas" element={<TambahTugas />} />
+            </Route>
+            <Route path="assistant" element={<Assistant />} />
+            <Route path="profil" element={<Profil />} />
+            <Route path="member" element={<Member />} />
+            <Route path="scient" element={<Scient />} />
           </Route>
-          <Route path="assistant" element={<Assistant />} />
-          <Route path="profil" element={<Profil />} />
-          <Route path="member" element={<Member />} />
-          <Route path="scient" element={<Scient />} />
-        </Route>
         <Route path="/" element={<AuthLayoutes />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
@@ -62,6 +64,7 @@ createRoot(document.getElementById("root")).render(
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </UserProvider>
     </ThemeProvider>
   </BrowserRouter>
 );

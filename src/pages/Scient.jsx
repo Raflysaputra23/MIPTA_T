@@ -13,37 +13,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import Scients from "../firebase/Scients";
 import { useState } from "react";
 import { Fragment } from "react";
-import { useEffect } from "react";
-import { Authentication } from "../firebase/auth";
-import { useNavigate } from "react-router";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
 const Scient = () => {
   const [search, setSearch] = useState("");
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState("");
-  const navigate = useNavigate();
+  const { user } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const response = await Scients(search, id);
+    const response = await Scients(search, user.uid);
     setLoading(false);
     setResult(response);
   };
-
-  useEffect(() => {
-    const unsubscribe = Authentication((user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-      setId(user.uid);
-    });
-    return () => unsubscribe;
-  }, []);
 
   return (
     <Fragment>

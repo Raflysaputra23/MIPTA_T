@@ -14,16 +14,15 @@ import {
 } from "@mui/material";
 import SaveIcons from "@mui/icons-material/Save";
 import { useEffect } from "react";
-import { Authentication } from "../firebase/auth";
-import { readDataSingle, updateData } from "../firebase/database";
-import { useNavigate } from "react-router";
+import { updateData } from "../firebase/database";
 import { useState } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
 const Profil = () => {
-  const navigate = useNavigate();
+  const { user } = useUser();
   const [disable, setDisable] = useState(true);
   const [uid, setUid] = useState("");
   const [photoURL, setPhotoURL] = useState("");
@@ -57,24 +56,13 @@ const Profil = () => {
   }
 
   useEffect(() => {
-    const unsubscribe = Authentication(async (user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-
-      const response = await readDataSingle(user?.uid);
-      const { uid , username, email, kelas, role, photoURL} = response;
-      setUid(uid);
-      setUsername(username);
-      setEmail(email);
-      setKelas(kelas);
-      setRole(role);
-      setPhotoURL(photoURL);
-    });
-    return () => unsubscribe;
-  }, []);
+    setUid(user.uid);
+    setUsername(user.username || "");
+    setEmail(user.email || "");
+    setKelas(user.kelas || "");
+    setRole(user.role || "");
+    setPhotoURL(user.photoURL || "");
+  }, [user]);
 
   return (
     <Fragment>

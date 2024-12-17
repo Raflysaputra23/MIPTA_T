@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Authentication, confirmResetPassword } from "../firebase/auth";
+import { confirmResetPassword } from "../firebase/auth";
 import { MixinAlert } from "../assets/sweetalert";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -42,6 +42,7 @@ const ResetPassword = () => {
       navigate("/login");
     }
   };
+  
   useEffect(() => {
     if (!token) {
       navigate("/login");

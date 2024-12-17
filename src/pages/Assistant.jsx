@@ -17,8 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
-import { Authentication } from "../firebase/auth";
-import { useNavigate } from "react-router";
 import RafAi from "../firebase/RafAi";
 import { marked } from "marked";
 import { Fragment } from "react";
@@ -32,7 +30,6 @@ const Assistant = () => {
   const [loading, setLoading] = useState(false);
   const messageRef = useRef(null);
   const contentRef = useRef(null);
-  const navigate = useNavigate();
 
   const generateSession = () => {
     return parseInt(Math.random() * 100000);
@@ -83,14 +80,6 @@ const Assistant = () => {
   }, [chat]);
 
   useEffect(() => {
-    const unsubscribe = Authentication((user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-    });
-
     const message = localStorage.getItem("message")
       ? JSON.parse(localStorage.getItem("message"))
       : [];
@@ -101,7 +90,6 @@ const Assistant = () => {
       localStorage.setItem("session", generateSession());
       setSession(localStorage.getItem("session"));
     }
-    return () => unsubscribe;
   }, []);
 
   return (

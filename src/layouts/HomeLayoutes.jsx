@@ -28,6 +28,7 @@ import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
 const WaktuRealTime = () => {
   const timeRef = useRef();
@@ -55,8 +56,9 @@ const WaktuRealTime = () => {
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
-  const [dataUser, setDataUser] = useState({});
+  const { user } = useUser();
   const navigate = useNavigate();
+
   const menu = [
     { title: "dashboard", icon: <DashboardIcon /> },
     { title: "tugas", icon: <LibraryBooksIcon /> },
@@ -68,19 +70,16 @@ const HomeLayoutes = () => {
     e.preventDefault();
     logout();
   };
+  
   useEffect(() => {
-    const unsubscribe = Authentication(async (user) => {
+    const auth = Authentication(async (user) => {
       if (user && !user?.emailVerified) {
         navigate("/verify");
       } else if (!user) {
         navigate("/login");
       }
-
-      const response = await readDataAll();
-      const find = response.find((item) => item.uid === user?.uid);
-      setDataUser(find);
     });
-    return () => unsubscribe;
+    return () => auth;
   }, []);
 
   const Aside = (
@@ -363,14 +362,14 @@ const HomeLayoutes = () => {
               gap={1}
             >
               <Avatar
-                alt={`${dataUser?.username}`}
+                alt={`${user?.username}`}
                 sx={{ order: 2 }}
-                src={dataUser?.photoURL}
+                src={user?.photoURL}
                 component={NavLink}
                 to="/profil"
               />
               <Typography variant="body2" component="span" sx={{ order: 1 }}>
-                {dataUser?.username || (
+                {user?.username || (
                   <Skeleton width="5rem" height="1.6rem" />
                 )}
               </Typography>

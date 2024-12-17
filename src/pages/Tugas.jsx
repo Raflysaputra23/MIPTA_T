@@ -20,7 +20,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Authentication } from "../firebase/auth";
 import { NavLink, useNavigate } from "react-router";
 import { hapusData, readDataAll } from "../firebase/database";
 import { useRef } from "react";
@@ -190,7 +189,6 @@ const Deadline = ({ deadline, matkul }) => {
 };
 
 const Tugas = () => {
-  const navigate = useNavigate();
   const [expandedIds, setExpandedIds] = useState([]);
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -226,17 +224,6 @@ const Tugas = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = Authentication((user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-    });
-    return () => unsubscribe;
-  }, []);
 
   useEffect(() => {
     (async () => {

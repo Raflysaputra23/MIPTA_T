@@ -11,58 +11,35 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import { Fragment } from "react";
-import { Authentication } from "../firebase/auth";
-import { readDataAll } from "../firebase/database";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
-const Dashboard = ({ auth }) => {
-  const navigate = useNavigate();
-  const [dataUser, setDataUser] = useState([]);
-  const [dataUserA, setDataUserA] = useState([]);
-  const [dataUserB, setDataUserB] = useState([]);
+const Dashboard = () => {
+  const { users } = useUser();
+
   const card = [
     {
       title: "Mahasiswa",
       icon: <GroupIcon sx={{ fontSize: 70 }} />,
-      jumlah: dataUser.length,
+      jumlah: users.length,
       bgcolor: "main",
     },
     {
       title: "Kelas A",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: dataUserA.length,
+      jumlah: users.filter(item => item.kelas == 'A').length,
       bgcolor: "#ff0000",
     },
     {
       title: "Kelas B",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: dataUserB.length,
+      jumlah: users.filter(item => item.kelas == 'B').length,
       bgcolor: "#0000ff",
     },
   ];
-
-  useEffect(() => {
-    const unsubscribe = Authentication(async (user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-      const response = await readDataAll();
-      const kelasA = response.filter((item) => item.kelas === "A");
-      const kelasB = response.filter((item) => item.kelas === "B");
-      setDataUserA(kelasA);
-      setDataUserB(kelasB);
-      setDataUser(response);
-    });
-    return () => unsubscribe;
-  }, []);
 
   return (
     <Fragment>

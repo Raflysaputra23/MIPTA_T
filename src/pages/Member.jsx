@@ -9,38 +9,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import { Fragment } from "react";
-import { Authentication } from "../firebase/auth";
-import { useNavigate } from "react-router";
-import { readDataAll } from "../firebase/database";
-import { useState } from "react";
 import { useId } from "react";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
 const Member = () => {
   let iterasi = 1;
-  const [rows, setRows] = useState([{ username: "", kelas: "", role: "" }]);
-  const navigate = useNavigate();
+  const { users } = useUser();
   const keys = useId();
-
-  useEffect(() => {
-    const unsubscribe = Authentication((user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-    });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const response = await readDataAll();
-      setRows(response);
-    })();
-  }, []);
 
   return (
     <Fragment>
@@ -79,7 +56,7 @@ const Member = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {users.map((row) => (
               <TableRow
                 key={row.uid || keys}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

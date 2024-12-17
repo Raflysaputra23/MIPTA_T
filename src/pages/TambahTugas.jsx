@@ -15,18 +15,18 @@ import { NavLink, useNavigate } from "react-router";
 import { useState } from "react";
 import { useEffect } from "react";
 import { MixinAlert } from "../assets/sweetalert";
-import { addData, readDataSingle } from "../firebase/database";
-import { Authentication } from "../firebase/auth";
+import { addData } from "../firebase/database";
 import { Helmet } from "react-helmet";
+import { useUser } from "../context/userContext";
 
 const TambahTugas = () => {
+  const { user } = useUser();
   const [kelas, setKelas] = useState("");
   const [matkul, setMatkul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("dd/mm/yyyy");
   const [deadlineTime, setDeadlineTime] = useState("23:59");
   const [disable, setDisable] = useState(true);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   
   const handleTrashInput = () => {
@@ -66,19 +66,6 @@ const TambahTugas = () => {
       handleTrashInput();
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = Authentication( async (user) => {
-      if (user && !user?.emailVerified) {
-        navigate("/verify");
-      } else if (!user) {
-        navigate("/login");
-      }
-      const response = await readDataSingle(user.uid);
-      setUser(response);
-    });
-    return () => unsubscribe; 
-  }, []);
 
   useEffect(() => {
     if (matkul && deskripsi && deadlineDate && kelas) {

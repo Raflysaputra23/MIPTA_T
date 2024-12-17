@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 
 const Verify = () => {
   const navigate = useNavigate();
+  
   useEffect(() => {
     const unsubscribe = Authentication((user) => {
       if (user && user?.emailVerified) {
@@ -17,8 +18,9 @@ const Verify = () => {
         navigate("/login");
       }
     });
-    return () => unsubscribe; // Bersihkan listener saat komponen unmounted
+    return () => unsubscribe; 
   }, []);
+
   return (
     <Fragment>
       <Helmet>
