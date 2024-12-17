@@ -308,11 +308,12 @@ const Tugas = () => {
             <Card sx={{ boxShadow: 3 }}>
               <CardHeader
                 title={item.matkul}
-                subheader={
+                subheader={`${
                   item.kelas.toLowerCase() == "semua"
                     ? "Semua Kelas"
-                    : `Kelas ${item.kelas}`
-                }
+                    : `Kelas ${item.kelas}`}
+                    - By ${item?.author || "Anonymous"}
+                `}
                 action={
                   <IconButton
                     onClick={(event) => handleAnchor(event, item.uid)}

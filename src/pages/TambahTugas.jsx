@@ -15,7 +15,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useState } from "react";
 import { useEffect } from "react";
 import { MixinAlert } from "../assets/sweetalert";
-import { addData } from "../firebase/database";
+import { addData, readDataSingle } from "../firebase/database";
 import { Authentication } from "../firebase/auth";
 import { Helmet } from "react-helmet";
 
@@ -26,8 +26,9 @@ const TambahTugas = () => {
   const [deadlineDate, setDeadlineDate] = useState("dd/mm/yyyy");
   const [deadlineTime, setDeadlineTime] = useState("23:59");
   const [disable, setDisable] = useState(true);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
+  
   const handleTrashInput = () => {
     setMatkul("");
     setDeadlineDate("");
@@ -55,6 +56,7 @@ const TambahTugas = () => {
         dedline: formattedDateTime,
         kelas,
         createAt,
+        author: user.username
       };
       const response = await addData(data, "tugas");
       MixinAlert("success", response);
@@ -66,12 +68,14 @@ const TambahTugas = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = Authentication((user) => {
+    const unsubscribe = Authentication( async (user) => {
       if (user && !user?.emailVerified) {
         navigate("/verify");
       } else if (!user) {
         navigate("/login");
       }
+      const response = await readDataSingle(user.uid);
+      setUser(response);
     });
     return () => unsubscribe; 
   }, []);
