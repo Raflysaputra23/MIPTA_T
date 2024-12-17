@@ -14,13 +14,13 @@ import Scients from "../firebase/Scients";
 import { useState } from "react";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
 
 const Scient = () => {
   const [search, setSearch] = useState("");
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useUser();
+  const { user } = Pengguna();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

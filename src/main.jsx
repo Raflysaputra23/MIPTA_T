@@ -24,7 +24,7 @@ import TugasLayoutes from "./layouts/TugasLayoutes";
 import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
-import { UserProvider } from "./context/UserProvider";
+import { PenggunaProvider } from "./context/PenggunaContext";
 
 const theme = createTheme({
   typography: {
@@ -39,7 +39,7 @@ createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <UserProvider>
+      <PenggunaProvider>
       <Routes>
           <Route path="/" element={<HomeLayoutes />}>
             <Route index element={<Dashboard />} />
@@ -64,7 +64,7 @@ createRoot(document.getElementById("root")).render(
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      </UserProvider>
+      </PenggunaProvider>
     </ThemeProvider>
   </BrowserRouter>
 );

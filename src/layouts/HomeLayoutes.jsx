@@ -16,7 +16,6 @@ import { useState, useEffect } from "react";
 import { Fragment } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { Authentication, logout } from "../firebase/auth";
-import { readDataAll } from "../firebase/database";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
@@ -28,7 +27,8 @@ import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
+
 
 const WaktuRealTime = () => {
   const timeRef = useRef();
@@ -56,7 +56,7 @@ const WaktuRealTime = () => {
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
-  const { user } = useUser();
+  const { user } = Pengguna();
   const navigate = useNavigate();
 
   const menu = [

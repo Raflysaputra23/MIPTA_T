@@ -15,10 +15,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
 
 const Dashboard = () => {
-  const { users } = useUser();
+  const { users } = Pengguna();
 
   const card = [
     {
@@ -30,13 +30,13 @@ const Dashboard = () => {
     {
       title: "Kelas A",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: users.filter(item => item.kelas == 'A').length,
+      jumlah: users.filter((item) => item.kelas == "A").length,
       bgcolor: "#ff0000",
     },
     {
       title: "Kelas B",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: users.filter(item => item.kelas == 'B').length,
+      jumlah: users.filter((item) => item.kelas == "B").length,
       bgcolor: "#0000ff",
     },
   ];

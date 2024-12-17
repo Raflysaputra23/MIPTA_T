@@ -17,10 +17,10 @@ import { useEffect } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { addData } from "../firebase/database";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
 
 const TambahTugas = () => {
-  const { user } = useUser();
+  const { user } = Pengguna();
   const [kelas, setKelas] = useState("");
   const [matkul, setMatkul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");

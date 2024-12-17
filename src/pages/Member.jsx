@@ -12,11 +12,11 @@ import {
 import { Fragment } from "react";
 import { useId } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
 
 const Member = () => {
   let iterasi = 1;
-  const { users } = useUser();
+  const { users } = Pengguna();
   const keys = useId();
 
   return (

@@ -19,10 +19,10 @@ import { useState } from "react";
 import { MixinAlert } from "../assets/sweetalert";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { useUser } from "../context/UserProvider";
+import { Pengguna } from "../context/PenggunaContext";
 
 const Profil = () => {
-  const { user } = useUser();
+  const { user } = Pengguna();
   const [disable, setDisable] = useState(true);
   const [uid, setUid] = useState("");
   const [photoURL, setPhotoURL] = useState("");
