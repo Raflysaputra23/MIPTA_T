@@ -51,9 +51,7 @@ const PenggunaProvider = ({ children }) => {
         (async () => {
             const userRef = Collection("users");
             const userAll = onSnapshot(userRef, (snapshot) => {
-                const userList = snapshot.docs.map((user) => ({
-                    ...user.data()
-                }))
+                const userList = snapshot.docs.map((user) => ({...user.data()}))
                 setUsers(userList);
                 setLoading(false);
             });
@@ -69,8 +67,7 @@ const PenggunaProvider = ({ children }) => {
     );
 }
 
-const Pengguna = () => {
-    return useContext(PenggunaContext);
-}
+const Pengguna = () => useContext(PenggunaContext);
+
 
 export { Pengguna, PenggunaProvider };

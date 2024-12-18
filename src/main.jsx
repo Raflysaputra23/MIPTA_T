@@ -24,8 +24,9 @@ import TugasLayoutes from "./layouts/TugasLayoutes";
 import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
-import { PenggunaProvider } from "./context/PenggunaContext";
 import Diskusi from "./pages/Diskusi";
+import { PenggunaProvider } from "./context/PenggunaContext";
+import { MessageProvider } from "./context/MessageContext";
 
 const theme = createTheme({
   typography: {
@@ -41,31 +42,33 @@ createRoot(document.getElementById("root")).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <PenggunaProvider>
-      <Routes>
-          <Route path="/" element={<HomeLayoutes />}>
-            <Route index element={<Dashboard />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="tugas" element={<TugasLayoutes />} >
-              <Route index element={<Tugas />} />
-              <Route path="tambah-tugas" element={<TambahTugas />} />
+        <MessageProvider>
+          <Routes>
+              <Route path="/" element={<HomeLayoutes />}>
+                <Route index element={<Dashboard />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="tugas" element={<TugasLayoutes />} >
+                  <Route index element={<Tugas />} />
+                  <Route path="tambah-tugas" element={<TambahTugas />} />
+                </Route>
+                <Route path="assistant" element={<Assistant />} />
+                <Route path="profil" element={<Profil />} />
+                <Route path="member" element={<Member />} />
+                <Route path="scient" element={<Scient />} />
+                <Route path="diskusi" element={<Diskusi />} />
+              </Route>
+            <Route path="/" element={<AuthLayoutes />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="verify" element={<Verify />} />
+              <Route path="reset-password" element={<ResetLayoutes />} >
+                <Route index element={<ResetPassword />} />
+                <Route path="reset" element={<Reset />} />
+              </Route>
             </Route>
-            <Route path="assistant" element={<Assistant />} />
-            <Route path="profil" element={<Profil />} />
-            <Route path="member" element={<Member />} />
-            <Route path="scient" element={<Scient />} />
-            <Route path="diskusi" element={<Diskusi />} />
-          </Route>
-        <Route path="/" element={<AuthLayoutes />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="verify" element={<Verify />} />
-          <Route path="reset-password" element={<ResetLayoutes />} >
-            <Route index element={<ResetPassword />} />
-            <Route path="reset" element={<Reset />} />
-          </Route>
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </MessageProvider>
       </PenggunaProvider>
     </ThemeProvider>
   </BrowserRouter>
