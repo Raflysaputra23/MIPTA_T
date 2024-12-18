@@ -51,6 +51,12 @@ const Member = () => {
                 align="center"
                 sx={{ fontWeight: "bold", fontSize: "1rem" }}
               >
+                Status
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ fontWeight: "bold", fontSize: "1rem" }}
+              >
                 Role
               </TableCell>
             </TableRow>
@@ -71,6 +77,9 @@ const Member = () => {
                   {(row.kelas ? row.kelas : "?") || (
                     <Skeleton width="100%" height="2rem" />
                   )}
+                </TableCell>
+                <TableCell align="center" sx={{bgcolor: row.status ? "#00ff00" : "#ff0000", color: "#fff"}}>
+                  {(row.status ? "Online" : "Offline") || <Skeleton width="100%" height="2rem" />}
                 </TableCell>
                 <TableCell align="center">
                   {row.role || <Skeleton width="100%" height="2rem" />}

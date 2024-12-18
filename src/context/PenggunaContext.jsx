@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useEffect} from "react";
 import { Authentication } from "../firebase/auth";
-import { readDataAll, readDataSingle } from "../firebase/database";
+import { Collection, Doc, updateData } from "../firebase/database";
 import { useContext } from "react";
+import { onSnapshot } from "firebase/firestore";
 
 const PenggunaContext = createContext(null);
 
@@ -14,24 +15,52 @@ const PenggunaProvider = ({ children }) => {
     useEffect(() => {
         const getData = Authentication(async (user) => {
             if(user?.uid) {
-                const userSingle = await readDataSingle(user?.uid);
-                setUser(userSingle); 
-                setLoading(false);
+                const userRef = Doc("users", user.uid);
+                const userSingle = onSnapshot(userRef, (snapshot) => {
+                    setUser({ ...snapshot.data()}); 
+                    setLoading(false);
+                });
+
+                const handleVisibilityChange = async () => {
+                    try {
+                        if (document.visibilityState === "hidden") {
+                            await updateData(user.uid, {status: false});
+                        } else if (document.visibilityState === "visible") {
+                            await updateData(user.uid, {status: true});
+                        }
+                    } catch(error) {
+                        console.log(error);
+                    }
+                };
+                
+                handleVisibilityChange();
+                document.addEventListener("visibilitychange", handleVisibilityChange);
+
+                return () => {
+                    userSingle();
+                    handleVisibilityChange();
+                    document.removeEventListener("visibilitychange", handleVisibilityChange);
+                };
             }
         });
 
-        return () => getData;
+        return () => getData();
     }, []);
 
     useEffect(() => {
-        const getData = async () => {
-            const userAll = await readDataAll();
-            setUsers(userAll);
-            setLoading(false);
-        }
-        
-        if(users == 0) getData();
-    }, [users]);
+        (async () => {
+            const userRef = Collection("users");
+            const userAll = onSnapshot(userRef, (snapshot) => {
+                const userList = snapshot.docs.map((user) => ({
+                    ...user.data()
+                }))
+                setUsers(userList);
+                setLoading(false);
+            });
+
+            return () => userAll();
+        })();
+    }, []);
 
     return (
         <PenggunaContext.Provider value={{ user, users, loading }}>

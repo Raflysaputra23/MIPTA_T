@@ -25,9 +25,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
+import ChatIcon from '@mui/icons-material/Chat';
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
+import { memo } from "react";
 
 
 const WaktuRealTime = () => {
@@ -65,7 +67,9 @@ const HomeLayoutes = () => {
     { title: "assistant", icon: <AssistantIcon /> },
     { title: "member", icon: <Diversity3Icon /> },
     { title: "scient", icon: <ScienceIcon /> },
+    { title: "Diskusi", icon: <ChatIcon /> }
   ];
+  
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
@@ -79,9 +83,10 @@ const HomeLayoutes = () => {
         navigate("/login");
       }
     });
+
     return () => auth;
   }, []);
-
+  
   const Aside = (
     <Grid2
       component="aside"

@@ -25,6 +25,7 @@ import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
 import { PenggunaProvider } from "./context/PenggunaContext";
+import Diskusi from "./pages/Diskusi";
 
 const theme = createTheme({
   typography: {
@@ -52,6 +53,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="profil" element={<Profil />} />
             <Route path="member" element={<Member />} />
             <Route path="scient" element={<Scient />} />
+            <Route path="diskusi" element={<Diskusi />} />
           </Route>
         <Route path="/" element={<AuthLayoutes />}>
           <Route path="login" element={<Login />} />

@@ -24,10 +24,16 @@ const Scient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const response = await Scients(search, user.uid);
-    setLoading(false);
-    setResult(response);
+    try {
+      setLoading(true);
+      const response = await Scients(search, user.uid);
+      setLoading(false);
+      setResult(response);
+    } catch(error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -83,4 +83,4 @@ const hapusData = async (document, id) => {
   });
 };
 
-export { addData, readDataAll, updateData, readDataSingle, hapusData };
+export { addData, readDataAll, updateData, readDataSingle, hapusData, db, Collection, Doc };
