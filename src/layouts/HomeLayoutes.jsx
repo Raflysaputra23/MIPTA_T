@@ -72,7 +72,7 @@ const HomeLayoutes = () => {
   
   const handleLogout = (e) => {
     e.preventDefault();
-    logout();
+    logout(user.uid);
   };
 
   useEffect(() => {

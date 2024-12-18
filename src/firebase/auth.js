@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-extra-boolean-cast */
 import app from "../../firebaseConfig";
-import { addData, readDataAll, readDataSingle } from "./database";
+import { addData, readDataAll, readDataSingle, updateData } from "./database";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -106,8 +106,14 @@ const loginWithManual = async (email, password) => {
   });
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async (uid) => {
+  try {
+    signOut(auth);
+    await updateData(uid, {status: false});
+  } catch(error) {
+    console.log(error);
+  }
+
 };
 
 export {
