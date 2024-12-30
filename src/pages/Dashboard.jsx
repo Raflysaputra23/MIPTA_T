@@ -28,15 +28,21 @@ const Dashboard = () => {
       bgcolor: "main",
     },
     {
-      title: "Kelas A",
+      title: "Kelas ILKOM A",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: users.filter((item) => item.kelas == "A").length,
+      jumlah: users.filter((item) => item.kelas == "ILKOM A").length,
       bgcolor: "#ff0000",
     },
     {
-      title: "Kelas B",
+      title: "Kelas ILKOM B",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
-      jumlah: users.filter((item) => item.kelas == "B").length,
+      jumlah: users.filter((item) => item.kelas == "ILKOM B").length,
+      bgcolor: "#0000ff",
+    },
+    {
+      title: "Kelas SI",
+      icon: <PersonIcon sx={{ fontSize: 70 }} />,
+      jumlah: users.filter((item) => item.kelas == "SI").length,
       bgcolor: "#0000ff",
     },
   ];

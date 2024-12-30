@@ -172,8 +172,9 @@ const Register = () => {
             onChange={(e) => setKelas(e.target.value)}
             name="kelas"
           >
-            <MenuItem value={`A`}>A</MenuItem>
-            <MenuItem value={`B`}>B</MenuItem>
+            <MenuItem value={`ILKOM A`}>ILKOM A</MenuItem>
+            <MenuItem value={`ILKOM B`}>ILKOM B</MenuItem>
+            <MenuItem value={`SI`}>SI</MenuItem>
           </Select>
           <FormHelperText>Harap pilih kelas</FormHelperText>
         </FormControl>
