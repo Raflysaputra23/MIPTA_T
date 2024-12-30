@@ -59,10 +59,8 @@ const WaktuRealTime = () => {
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
-  const { user } = Pengguna();
-  const { banned } = Pengguna();
+  const { user, banned } = Pengguna();
   const navigate = useNavigate();
-
   const menu = [
     { title: "dashboard", icon: <DashboardIcon /> },
     { title: "tugas", icon: <LibraryBooksIcon /> },
@@ -78,19 +76,21 @@ const HomeLayoutes = () => {
   };
 
   useEffect(() => {
+    if(banned.includes(user?.uid)) {
+      setTimeout(() => {
+        logout(user?.uid);
+        MixinAlert("error", "Anda Telah Dibanned");
+        navigate("/login");
+      }, 500);
+    }
+  }, [banned]);
+
+  useEffect(() => {
     const auth = Authentication(async (user) => {
       if (user && !user?.emailVerified) {
         navigate("/verify");
       } else if (!user) {
         navigate("/login");
-      }
-    
-      if(banned.includes(user?.uid)) {
-        setTimeout(() => {
-          logout(user?.uid);
-          MixinAlert("error", "Anda Telah Dibanned");
-          navigate("/login");
-        }, 500);
       }
     });
 

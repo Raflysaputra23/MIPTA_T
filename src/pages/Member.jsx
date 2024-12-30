@@ -17,7 +17,6 @@ import { Pengguna } from "../context/PenggunaContext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { MixinAlert } from "../assets/sweetalert";
 import { banned as bannedUser } from "../firebase/database";
-import { logout } from "../firebase/auth";
 
 const Member = () => {
   let iterasi = 1;
@@ -33,7 +32,6 @@ const Member = () => {
       } else {
         const response = await bannedUser(uid, "banned");
         MixinAlert("success", response);
-        logout(uid);
       }
     } catch(error) {
       MixinAlert("error", error);
