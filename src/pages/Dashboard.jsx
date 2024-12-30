@@ -43,7 +43,7 @@ const Dashboard = () => {
       title: "Kelas SI",
       icon: <PersonIcon sx={{ fontSize: 70 }} />,
       jumlah: users.filter((item) => item.kelas == "SI").length,
-      bgcolor: "#0000ff",
+      bgcolor: "#ffff00",
     },
   ];
 
