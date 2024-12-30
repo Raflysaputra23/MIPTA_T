@@ -10,6 +10,8 @@ const PenggunaContext = createContext(null);
 const PenggunaProvider = ({ children }) => {
     const [ users, setUsers ] = useState([]);
     const [ user, setUser ] = useState([]);
+    const [ banned, setBanned ] = useState([]);
+    const [ role, setRole ] = useState("");
     const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
@@ -18,6 +20,13 @@ const PenggunaProvider = ({ children }) => {
                 const userRef = Doc("users", user.uid);
                 const userSingle = onSnapshot(userRef, (snapshot) => {
                     setUser({ ...snapshot.data()}); 
+
+                    if(snapshot.data().role == "admin") {
+                        setRole("admin");
+                    } else {
+                        setRole("user");
+                    }
+
                     setLoading(false);
                 });
 
@@ -60,8 +69,21 @@ const PenggunaProvider = ({ children }) => {
         })();
     }, []);
 
+    useEffect(() => {
+        (async () => {
+            const userRef = Collection("banned");
+            const userAll = onSnapshot(userRef, (snapshot) => {
+                const userList = snapshot.docs.map((user) => (user.id));
+                setBanned(userList);
+                setLoading(false);
+            });
+
+            return () => userAll();
+        })();
+    }, []);
+
     return (
-        <PenggunaContext.Provider value={{ user, users, loading }}>
+        <PenggunaContext.Provider value={{ user, users, banned, role, loading }}>
             {children}
         </PenggunaContext.Provider>
     );

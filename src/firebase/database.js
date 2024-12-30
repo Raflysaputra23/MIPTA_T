@@ -83,4 +83,22 @@ const hapusData = async (document, id) => {
   });
 };
 
-export { addData, readDataAll, updateData, readDataSingle, hapusData, db, Collection, Doc };
+const banned = async (uid, type) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if(type === "banned") {
+        const useRef = Doc("banned", uid);
+        await setDoc(useRef, {banned: true});
+        resolve("Akun berhasil dibanned");
+      } else {
+        const useRef = Doc("banned", uid);
+        await deleteDoc(useRef);
+        resolve("Akun berhasil diunbanned");
+      }
+    } catch(error) {
+      reject("Akun gagal dibanned");
+    }
+  });
+}
+
+export { addData, readDataAll, updateData, readDataSingle, hapusData, db, Collection, Doc, banned };

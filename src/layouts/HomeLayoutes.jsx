@@ -30,6 +30,7 @@ import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
 import { memo } from "react";
+import { MixinAlert } from "../assets/sweetalert";
 
 
 const WaktuRealTime = () => {
@@ -59,6 +60,7 @@ const WaktuRealTime = () => {
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
   const { user } = Pengguna();
+  const { banned } = Pengguna();
   const navigate = useNavigate();
 
   const menu = [
@@ -81,6 +83,14 @@ const HomeLayoutes = () => {
         navigate("/verify");
       } else if (!user) {
         navigate("/login");
+      }
+    
+      if(banned.includes(user?.uid)) {
+        setTimeout(() => {
+          logout(user?.uid);
+          MixinAlert("error", "Anda Telah Dibanned");
+          navigate("/login");
+        }, 500);
       }
     });
 

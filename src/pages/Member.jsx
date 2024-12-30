@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Paper,
   Skeleton,
   Table,
@@ -13,11 +14,31 @@ import { Fragment } from "react";
 import { useId } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { MixinAlert } from "../assets/sweetalert";
+import { banned as bannedUser } from "../firebase/database";
+import { logout } from "../firebase/auth";
 
 const Member = () => {
   let iterasi = 1;
   const { users } = Pengguna();
+  const { banned } = Pengguna();
+  const { role } = Pengguna();
   const keys = useId();
+  const handleBanned = async (uid) => {
+    try {
+      if(banned.includes(uid)) {
+        const response = await bannedUser(uid, "unbanned");
+        MixinAlert("success", response);
+      } else {
+        const response = await bannedUser(uid, "banned");
+        MixinAlert("success", response);
+        logout(uid);
+      }
+    } catch(error) {
+      MixinAlert("error", error);
+    }
+  }
 
   return (
     <Fragment>
@@ -59,6 +80,14 @@ const Member = () => {
               >
                 Role
               </TableCell>
+              {role === "admin" && (
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                >
+                  Banned
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,6 +113,11 @@ const Member = () => {
                 <TableCell align="center">
                   {row.role || <Skeleton width="100%" height="2rem" />}
                 </TableCell>
+                {role === "admin" && (
+                  <TableCell align="center">
+                    <IconButton color={banned.includes(row.uid) ? "success" : "error"} sx={{ borderRadius: 2, '&:hover': { backgroundColor: banned.includes(row.uid) ? '#00ff00' : '#ff0000', color: '#fff' }}} onClick={() => handleBanned(row.uid)}><DeleteIcon /></IconButton>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
