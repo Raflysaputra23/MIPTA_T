@@ -125,8 +125,9 @@ const Profil = () => {
                   value={kelas}
                   onChange={(e) => setKelas(handleSubmit(e))}
                   >
-                  <MenuItem value={`A`}>A</MenuItem>
-                  <MenuItem value={`B`}>B</MenuItem>
+                  <MenuItem value={`ILKOM A`}>ILKOM A</MenuItem>
+                  <MenuItem value={`ILKOM B`}>ILKOM B</MenuItem>
+                  <MenuItem value={`SI`}>SI</MenuItem>
                   </Select>
               </FormControl>
               <TextField
