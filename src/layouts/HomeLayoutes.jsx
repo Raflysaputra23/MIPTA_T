@@ -326,7 +326,6 @@ const HomeLayoutes = () => {
                       color: "#fff !important",
                     },
                   }}
-                  onClick={() => setOpenDraw((openDraw) => !openDraw)}
                 >
                   Share
                 </Button>
