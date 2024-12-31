@@ -34,7 +34,8 @@ const Share = () => {
     try {
       const uid = generateUniqueId();
       const time = new Date().toLocaleTimeString();
-      const date = new Date().toLocaleDateString();
+      let date = new Date().toLocaleDateString().split("/");
+      date = `${date[1]}/${date[0]}/${date[2]}`;
       const createAt = `${date} ${time}`;
       const data = {uid, judul, deskripsi, createAt};
       const response = await addData(data, "share");
