@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
-import EmailIcon from '@mui/icons-material/Email';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EmailIcon from "@mui/icons-material/Email";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
@@ -41,12 +41,11 @@ const Dashboard = () => {
     try {
       const response = await hapusData("share", uid);
       MixinAlert("success", response);
-    } catch(error) {
+    } catch (error) {
       MixinAlert("error", error);
     }
-  }
+  };
 
-  
   const card = [
     {
       title: "Mahasiswa",
@@ -83,29 +82,61 @@ const Dashboard = () => {
         />
         <meta name="keywords" content="Dashboard MIPA T, Aplikasi MIPA T" />
       </Helmet>
-      <Stack direction="row" mb={2} bgcolor={"rgba(0, 0, 255, 0.1)"} p={2} borderRadius={2}>
+      <Stack
+        direction="row"
+        mb={2}
+        bgcolor={"rgba(0, 0, 255, 0.1)"}
+        p={2}
+        borderRadius={2}
+      >
         {loading && <Skeleton width="100%" height={50} />}
-        <Stepper activeStep={acvtiveStep} orientation="vertical" sx={{ width: "100%" }}>
-          {share && share.map((step, index) => (
-            <Step key={step.judul} onClick={() => setActiveStep(index)} sx={{cursor: "pointer"}}>
-              <StepLabel icon={<EmailIcon color="primary" />}>
-                <Typography variant="body" component="h4" fontWeight="bold">{step.judul}</Typography>
-              </StepLabel>
-              <StepContent>
-                <Stack direction={"row"}>
-                  <Box width={"100%"}>
-                    <Typography variant="body2" component="p" gutterBottom>{step.deskripsi}</Typography>
-                    <Typography variant="body2" fontSize={12} color="text.secondary" mt={2} fontStyle="italic">{step.createAt}</Typography>
-                  </Box>
-                  {role == "admin" && (
-                    <Box>
-                      <IconButton color="error" onClick={() => handleDeleteShare(step.uid)}><DeleteIcon /></IconButton>
+        <Stepper
+          activeStep={acvtiveStep}
+          orientation="vertical"
+          sx={{ width: "100%" }}
+        >
+          {share &&
+            share.map((step, index) => (
+              <Step
+                key={step.judul}
+                onClick={() => setActiveStep(index)}
+                sx={{ cursor: "pointer" }}
+              >
+                <StepLabel icon={<EmailIcon color="primary" />}>
+                  <Typography variant="body" component="h4" fontWeight="bold">
+                    {step.judul}
+                  </Typography>
+                </StepLabel>
+                <StepContent>
+                  <Stack direction={"row"}>
+                    <Box width={"100%"}>
+                      <Typography variant="body2" component="p" gutterBottom>
+                        {step.deskripsi}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        fontSize={12}
+                        color="text.secondary"
+                        mt={2}
+                        fontStyle="italic"
+                      >
+                        {step.createAt}
+                      </Typography>
                     </Box>
-                  )}
-                </Stack>
-              </StepContent>
-            </Step>
-          ))}
+                    {role == "admin" && (
+                      <Box>
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteShare(step.uid)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
+                    )}
+                  </Stack>
+                </StepContent>
+              </Step>
+            ))}
         </Stepper>
       </Stack>
       <Grid2

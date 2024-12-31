@@ -25,14 +25,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
-import ChatIcon from '@mui/icons-material/Chat';
-import EmailIcon from '@mui/icons-material/Email';
+import ChatIcon from "@mui/icons-material/Chat";
+import EmailIcon from "@mui/icons-material/Email";
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
-import { memo } from "react";
 import { MixinAlert } from "../assets/sweetalert";
-
 
 const WaktuRealTime = () => {
   const timeRef = useRef();
@@ -67,14 +65,14 @@ const HomeLayoutes = () => {
     { title: "scient", icon: <ScienceIcon /> },
     { title: "diskusi", icon: <ChatIcon /> },
   ];
-  
+
   const handleLogout = (e) => {
     e.preventDefault();
     logout(user.uid);
   };
 
   useEffect(() => {
-    if(banned.includes(user?.uid)) {
+    if (banned.includes(user?.uid)) {
       setTimeout(() => {
         logout(user?.uid);
         MixinAlert("error", "Anda Telah Dibanned");
@@ -94,7 +92,7 @@ const HomeLayoutes = () => {
 
     return () => auth;
   }, []);
-  
+
   const Aside = (
     <Grid2
       component="aside"
@@ -160,28 +158,28 @@ const HomeLayoutes = () => {
           ))}
           {role === "admin" && (
             <Button
-                component={NavLink}
-                to={`/share`}
-                variant="text"
-                startIcon={<EmailIcon />}
-                style={({ isActive }) => ({
-                  color: isActive ? "#fff" : "black",
-                  backgroundColor: isActive ? "#06D001" : "#fff",
-                })}
-                sx={{
-                  color: "#000",
-                  fontSize: 16,
-                  fontWeight: "500",
-                  textTransform: "capitalize",
-                  justifyContent: "flex-start",
-                  "&:hover": {
-                    bgcolor: "#06D001 !important",
-                    color: "#fff !important",
-                  },
-                }}
-                onClick={() => setOpenDraw((openDraw) => !openDraw)}
-              >
-                Share
+              component={NavLink}
+              to={`/share`}
+              variant="text"
+              startIcon={<EmailIcon />}
+              style={({ isActive }) => ({
+                color: isActive ? "#fff" : "black",
+                backgroundColor: isActive ? "#06D001" : "#fff",
+              })}
+              sx={{
+                color: "#000",
+                fontSize: 16,
+                fontWeight: "500",
+                textTransform: "capitalize",
+                justifyContent: "flex-start",
+                "&:hover": {
+                  bgcolor: "#06D001 !important",
+                  color: "#fff !important",
+                },
+              }}
+              onClick={() => setOpenDraw((openDraw) => !openDraw)}
+            >
+              Share
             </Button>
           )}
           <Typography
@@ -307,6 +305,32 @@ const HomeLayoutes = () => {
                   {item.title}
                 </Button>
               ))}
+              {role === "admin" && (
+                <Button
+                  component={NavLink}
+                  to={`/share`}
+                  variant="text"
+                  startIcon={<EmailIcon />}
+                  style={({ isActive }) => ({
+                    color: isActive ? "#fff" : "black",
+                    backgroundColor: isActive ? "#06D001" : "#fff",
+                  })}
+                  sx={{
+                    color: "#000",
+                    fontSize: 16,
+                    fontWeight: "500",
+                    textTransform: "capitalize",
+                    justifyContent: "flex-start",
+                    "&:hover": {
+                      bgcolor: "#06D001 !important",
+                      color: "#fff !important",
+                    },
+                  }}
+                  onClick={() => setOpenDraw((openDraw) => !openDraw)}
+                >
+                  Share
+                </Button>
+              )}
             </Box>
           </Stack>
           <Button
@@ -408,9 +432,7 @@ const HomeLayoutes = () => {
                 to="/profil"
               />
               <Typography variant="body2" component="span" sx={{ order: 1 }}>
-                {user?.username || (
-                  <Skeleton width="5rem" height="1.6rem" />
-                )}
+                {user?.username || <Skeleton width="5rem" height="1.6rem" />}
               </Typography>
             </Stack>
           </Stack>
