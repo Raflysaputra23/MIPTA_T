@@ -162,8 +162,9 @@ const TambahTugas = () => {
               value={kelas}
               onChange={(e) => setKelas(e.target.value)}
             >
-              <MenuItem value={`A`}>A</MenuItem>
-              <MenuItem value={`B`}>B</MenuItem>
+              <MenuItem value={`ILKOM A`}>ILKOM A</MenuItem>
+              <MenuItem value={`ILKOM B`}>ILKOM B</MenuItem>
+              <MenuItem value={"SI"}>SI</MenuItem>
               <MenuItem value={"semua"}>Semua</MenuItem>
             </Select>
           </FormControl>
