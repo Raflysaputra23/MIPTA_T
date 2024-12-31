@@ -299,7 +299,7 @@ const Tugas = () => {
                   item.kelas.toLowerCase() == "semua"
                     ? "Semua Kelas"
                     : `Kelas ${item.kelas}`}
-                    - By ${item?.author || "Anonymous"}
+                    - By ${item?.author || "Anonymous"} 
                 `}
                 action={
                   <IconButton

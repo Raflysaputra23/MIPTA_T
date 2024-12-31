@@ -184,6 +184,9 @@ const Dashboard = () => {
           </Grid2>
         ))}
       </Grid2>
+      <Stack mt={15}>    
+        <Typography variant="body2" component="p" align="center" color="text.secondary" fontStyle="italic">Copyright &copy; Created By By M. Rafly</Typography>
+      </Stack>
     </Fragment>
   );
 };
