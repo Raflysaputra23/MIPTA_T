@@ -26,6 +26,7 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import ScienceIcon from "@mui/icons-material/Science";
 import ChatIcon from '@mui/icons-material/Chat';
+import EmailIcon from '@mui/icons-material/Email';
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
@@ -41,11 +42,8 @@ const WaktuRealTime = () => {
     };
 
     const interval = setInterval(() => {
-      const date = new Date();
-      const hours = parseWaktu(date.getHours());
-      const minutes = parseWaktu(date.getMinutes());
-      const seconds = parseWaktu(date.getSeconds());
-      timeRef.current.innerHTML = `${hours}:${minutes}:${seconds}`;
+      const date = new Date().toLocaleTimeString();
+      timeRef.current.innerHTML = date;
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -59,7 +57,7 @@ const WaktuRealTime = () => {
 
 const HomeLayoutes = () => {
   const [openDraw, setOpenDraw] = useState(false);
-  const { user, banned } = Pengguna();
+  const { user, banned, role } = Pengguna();
   const navigate = useNavigate();
   const menu = [
     { title: "dashboard", icon: <DashboardIcon /> },
@@ -67,7 +65,7 @@ const HomeLayoutes = () => {
     { title: "assistant", icon: <AssistantIcon /> },
     { title: "member", icon: <Diversity3Icon /> },
     { title: "scient", icon: <ScienceIcon /> },
-    { title: "Diskusi", icon: <ChatIcon /> }
+    { title: "diskusi", icon: <ChatIcon /> },
   ];
   
   const handleLogout = (e) => {
@@ -160,6 +158,32 @@ const HomeLayoutes = () => {
               {item.title}
             </Button>
           ))}
+          {role === "admin" && (
+            <Button
+                component={NavLink}
+                to={`/share`}
+                variant="text"
+                startIcon={<EmailIcon />}
+                style={({ isActive }) => ({
+                  color: isActive ? "#fff" : "black",
+                  backgroundColor: isActive ? "#06D001" : "#fff",
+                })}
+                sx={{
+                  color: "#000",
+                  fontSize: 16,
+                  fontWeight: "500",
+                  textTransform: "capitalize",
+                  justifyContent: "flex-start",
+                  "&:hover": {
+                    bgcolor: "#06D001 !important",
+                    color: "#fff !important",
+                  },
+                }}
+                onClick={() => setOpenDraw((openDraw) => !openDraw)}
+              >
+                Share
+            </Button>
+          )}
           <Typography
             variant="body2"
             component="span"
@@ -359,7 +383,7 @@ const HomeLayoutes = () => {
                   color: "#fff",
                   bgcolor: "main",
                   borderRadius: 2,
-                  width: 70,
+                  width: 100,
                   py: 1,
                   display: { xs: "none", sm: "none", md: "flex" },
                   justifyContent: "center",

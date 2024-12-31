@@ -10,6 +10,7 @@ const MessageContext = createContext(null);
 
 const MessageProvider = ({children}) => {
     const [message, setMessage] = useState([]);
+    const [share, setShare] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,8 +25,20 @@ const MessageProvider = ({children}) => {
         return () => messageContent();
     }, []);
 
+    useEffect(() => {
+        const messageRef = Collection("share");
+        const q = query(messageRef, orderBy("createAt", "desc"));
+        const messageContent = onSnapshot(q, (snapshot) => {
+            const message = snapshot.docs.map((message) => ({...message.data()}));
+            setShare(message);
+            setLoading(false);
+        });
+
+        return () => messageContent();
+    }, []);
+
   return (
-    <MessageContext.Provider value={{message, loading}}>
+    <MessageContext.Provider value={{message, share, loading}}>
         {children}
     </MessageContext.Provider>
   )

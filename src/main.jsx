@@ -25,9 +25,9 @@ import TambahTugas from "./pages/TambahTugas";
 import Member from "./pages/Member";
 import Scient from "./pages/Scient";
 import Diskusi from "./pages/Diskusi";
+import Share from "./pages/Share";
 import { PenggunaProvider } from "./context/PenggunaContext";
 import { MessageProvider } from "./context/MessageContext";
-
 const theme = createTheme({
   typography: {
     fontFamily: "Poppins, sans-serif",
@@ -56,6 +56,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="member" element={<Member />} />
                 <Route path="scient" element={<Scient />} />
                 <Route path="diskusi" element={<Diskusi />} />
+                <Route path="share" element={<Share/>} />
               </Route>
             <Route path="/" element={<AuthLayoutes />}>
               <Route path="login" element={<Login />} />

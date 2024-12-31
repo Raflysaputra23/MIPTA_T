@@ -1,25 +1,52 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
-  Alert,
-  AlertTitle,
+  Box,
   Card,
   CardContent,
   CardMedia,
   Grid2,
+  IconButton,
   Skeleton,
   Stack,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
+import EmailIcon from '@mui/icons-material/Email';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Pengguna } from "../context/PenggunaContext";
+import { useState } from "react";
+import { Message } from "../context/MessageContext";
+import { useEffect } from "react";
+import { hapusData } from "../firebase/database";
+import { MixinAlert } from "../assets/sweetalert";
 
 const Dashboard = () => {
-  const { users } = Pengguna();
+  const { users, role } = Pengguna();
+  const { share, loading } = Message();
+  const [acvtiveStep, setActiveStep] = useState(0);
 
+  useEffect(() => {
+    setActiveStep(0);
+  }, [share]);
+
+  const handleDeleteShare = async (uid) => {
+    try {
+      const response = await hapusData("share", uid);
+      MixinAlert("success", response);
+    } catch(error) {
+      MixinAlert("error", error);
+    }
+  }
+
+  
   const card = [
     {
       title: "Mahasiswa",
@@ -56,18 +83,30 @@ const Dashboard = () => {
         />
         <meta name="keywords" content="Dashboard MIPA T, Aplikasi MIPA T" />
       </Helmet>
-      <Stack direction="row" mb={3}>
-        <Alert
-          variant="filled"
-          severity="info"
-          sx={{ width: "100%", boxShadow: 3 }}
-        >
-          <AlertTitle sx={{ fontWeight: "bold" }}>Info</AlertTitle>
-          <Typography variant="body2">
-            Selamat datang diaplikasi tugas untuk mahasiswa saya membuat
-            aplikasi ini dengan sepenuh hati untuk mendata tugas tugas kalian
-          </Typography>
-        </Alert>
+      <Stack direction="row" mb={2} bgcolor={"rgba(0, 0, 255, 0.1)"} p={2} borderRadius={2}>
+        {loading && <Skeleton width="100%" height={50} />}
+        <Stepper activeStep={acvtiveStep} orientation="vertical" sx={{ width: "100%" }}>
+          {share && share.map((step, index) => (
+            <Step key={step.judul} onClick={() => setActiveStep(index)} sx={{cursor: "pointer"}}>
+              <StepLabel icon={<EmailIcon color="primary" />}>
+                <Typography variant="body" component="h4" fontWeight="bold">{step.judul}</Typography>
+              </StepLabel>
+              <StepContent>
+                <Stack direction={"row"}>
+                  <Box width={"100%"}>
+                    <Typography variant="body2" component="p" gutterBottom>{step.deskripsi}</Typography>
+                    <Typography variant="body2" fontSize={12} color="text.secondary" mt={2} fontStyle="italic">{step.createAt}</Typography>
+                  </Box>
+                  {role == "admin" && (
+                    <Box>
+                      <IconButton color="error" onClick={() => handleDeleteShare(step.uid)}><DeleteIcon /></IconButton>
+                    </Box>
+                  )}
+                </Stack>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
       </Stack>
       <Grid2
         container
